@@ -1,4 +1,4 @@
-sidepane
+Dojo Mobile SidePane prototype
 ========
 
-Dojo Mobile SidePane
+
