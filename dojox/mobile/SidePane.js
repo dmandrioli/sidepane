@@ -1,50 +1,81 @@
 define([
     "dojo/_base/declare",
     "dojo/_base/lang",
-    "dojo/sniff",
     "dojo/_base/window",
     "dojo/on",
     "dojo/dom-class",
-    "dojo/dom",
     "dojo/dom-geometry",
-    "dojo/dom-style",
-    "dojo/window",
     "dijit/_WidgetBase",
-    "dojo/_base/array",
-    "dijit/registry",
     "dojo/touch"
-], function(declare, lang, has, win, on, domClass, dom, domGeom, domStyle, windowUtils, WidgetBase, array, registry, touch){
+], function(declare, lang, win, on, domClass, domGeom, WidgetBase, touch){
 
     return declare("dojox.mobile.SidePane", WidgetBase, {
         // summary:
-        //		...
-        //		...
+        //		A container displayed on the side of the screen. It can be displayed on top of the page (mode=overlay)
+        //		or can push the content of the page (mode=push).
+        // description:
+        //		SidePane is an interactive container hidden by default. To open it, swipe the screen from the border to the center of the page.
+        //		To close it, swipe horizontally the panel in the other direction.
+        //		This widget must be a sibling of html's body element.
+        //		If mode is set to "push", there are some rules to follow:
+        //		1. The pushed element(s) have to be wrapped into a single html container with its "position" CSS property set to "absolute".
+        //		2. Place the widget just before this single container, whatever the value of position.
+        //		3. The width of the SidePane can't be changed in the markup (15em by default). However it can be changed in the LESS/CSS files.
 
         // baseClass: String
         //		The name of the CSS class of this widget.
         baseClass: "mblSidePane",
-
-        mode: "overlay", // | "reveal" | "push"
-        position: "start", // | end
+        // mode: String
+        //		Can be "overlay" or "push".
+        mode: "overlay",
+        // position: String
+        //		Can be "start" or "end". If set to "start", the panel is displayed on the left side in left-to-right mode.
+        position: "start",
+        // inheritViewBg: Boolean
+        //		If true, the "mblBackground" CSS class is added to the panel to reuse the background of the mobile theme used.
         inheritViewBg: true,
-        startup: function(){
 
-            this.hide();
+        show: function(){
+            // summary:
+            //		Open the panel.
+            this._showImpl();
+            this._resetInteractions();
+            var opts = {bubbles:true, cancelable:true, detail: this};
+            on.emit(this.domNode,"showStart", opts);
         },
-        _setPositionAttr: function(value){
 
+        hide: function(){
+            // summary:
+            //		Close the panel.
+            this._hideImpl();
+            this._resetInteractions();
+            var opts = {bubbles:true, cancelable:true, detail: this};
+            on.emit(this.domNode,"hideStart", opts);
+        },
+
+        _visible: false,
+        _makingVisible: false,
+        _originX: NaN,
+        _originY: NaN,
+
+        _setPositionAttr: function(value){
             this.position = value;
             this.buildRendering();
         },
-        _touchPress: function(event){
 
+        _setModeAttr: function(value){
+            this.mode = value;
+            this.buildRendering();
+        },
+        _getStateAttr: function(value){
+            return this._visible ? "open" : "close";
+        },
+        _touchPress: function(event){
             this._originX = event.pageX;
             this._originY = event.pageY;
 
-            //alert(win.doc.innerWidth + " " + this._originX + " " + screen.pixelDepth);
             if(this._visible || (this.position == "start" && !this._visible && this._originX <= 10) ||
                 (this.position == "end" && !this._visible && this._originX >= win.doc.width - 10)){
-
                 if(this._visible){
                     this._makingVisible = false;
                 }else{
@@ -56,11 +87,6 @@ define([
                 domClass.add(win.doc.body, "noSelect");
             }
         },
-        _visible: false,
-        _makingVisible: false,
-        _paneWidth: 0,
-        _originX: NaN,
-        _originY: NaN,
 
         _touchMove: function(event){
             if (!this._makingVisible && Math.abs(event.pageY - this._originY) > 10){
@@ -117,15 +143,12 @@ define([
             this._originY = NaN;
         },
 
-        _updatePaneWidth: function(){
-            this._paneWidth = domGeom.getMarginBox(this.domNode).w;
-        },
         _hideAndReveal: function(){
             this.domNode.style.display = "none";
             setTimeout(lang.hitch(this, function(){this.domNode.style.display = "";}),0);
         },
+
         postCreate: function(){
-            this._updatePaneWidth();
             this._hideAndReveal();
         },
 
@@ -176,6 +199,7 @@ define([
             this._resetInteractions();
 
         },
+
         _getNextElement: function(domElt){
             var nextElement = domElt.nextSibling;
             while (nextElement && nextElement.nodeType != 1){
@@ -187,7 +211,8 @@ define([
                 return null;
             }
         },
-        show: function(){
+
+        _showImpl: function(){
             this._visible = true;
             if(this.mode == "overlay"){
                 this.domNode.style[this.position=="start" ? "left" : "right"] = 0;
@@ -211,7 +236,7 @@ define([
             }
         },
 
-        hide: function(){
+        _hideImpl: function(){
             this._visible = false;
             this._makingVisible = false;
             domClass.remove(win.doc.body, "noSelect");

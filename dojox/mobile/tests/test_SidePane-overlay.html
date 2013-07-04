@@ -5,9 +5,9 @@
     <meta name="viewport"
           content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no"/>
     <meta name="apple-mobile-web-app-capable" content="yes"/>
-    <title>Form Layout</title>
+    <title>My Mobile App</title>
 
-    <script type="text/javascript" src="../deviceTheme.js" data-dojo-config="mblThemeFiles: ['base','SidePane']"></script>
+    <script type="text/javascript" src="../deviceTheme.js" data-dojo-config="mblThemeFiles: ['base','SidePane', 'Button']"></script>
     <script type="text/javascript" src="../../../dojo/dojo.js"
             data-dojo-config="async: true, parseOnLoad: true"></script>
 
@@ -28,16 +28,27 @@
             "dojox/mobile/ScrollableView",
             "dojox/mobile/SidePane"
         ]);
+        function toggle(target){
+            if(target.get("state") == "open"){
+                target.hide();
+            }else{
+                target.show();
+            }
+        }
     </script>
 </head>
 <body style="height: 100%; visibility:hidden;">
-
-
-</div>
 <div data-dojo-type="dojox.mobile.View" style="height:100%">
     <h1 data-dojo-type="dojox.mobile.Heading">My Mobile App</h1>
+    <div style="text-align: center">
+        Swipe the screen from left or right.<br>
+        - or -<br>
+        <button id="toggleLeft" class="mblRedButton" data-dojo-type="dojox/mobile/Button" onclick="toggle(leftPane)">Toggle Left</button>
+        <button id="toggleRight" class="mblBlueButton" data-dojo-type="dojox/mobile/Button" onclick="toggle(rightPane)">Toggle Right</button>
+    </div>
+
 </div>
-<div style="width:30%;" data-dojo-type="dojox/mobile/SidePane" data-dojo-props="position:'start'">
+<div style="width:30%;" data-dojo-type="dojox/mobile/SidePane" data-dojo-props="mode:'overlay', position:'start'" data-dojo-id="leftPane">
     <div data-dojo-type="dojox.mobile.ScrollableView" style="height:100%">
         <ul data-dojo-type="dojox.mobile.EdgeToEdgeList" style="height:100%;">
             <li data-dojo-type="dojox.mobile.ListItem">A</li>
@@ -69,7 +80,7 @@
         </ul>
     </div>
 </div>
-<div style="width:30%;" data-dojo-type="dojox/mobile/SidePane" data-dojo-props="position:'end'">
+<div style="width:40%;" data-dojo-type="dojox/mobile/SidePane" data-dojo-props="mode:'overlay', position:'end'" data-dojo-id="rightPane">
     <div data-dojo-type="dojox.mobile.ScrollableView" style="height:100%">
         <ul data-dojo-type="dojox.mobile.EdgeToEdgeList" style="height:100%;">
             <li data-dojo-type="dojox.mobile.ListItem">A</li>

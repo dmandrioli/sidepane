@@ -28,7 +28,8 @@
             "dojox/mobile/ScrollableView",
             "dojox/mobile/SidePane"
         ]);
-        function setPosition(pos){
+        function setPosition(){
+            pos = sidePane.get("position") == "start" ? "end" : "start";
             sidePane.set('position', pos);
             if(pos == "start"){
                 leftTip.style.display = "";
@@ -38,11 +39,18 @@
                 rightTip.style.display = "";
             }
         }
+        function toggle(target){
+            if(target.get("state") == "open"){
+                target.hide();
+            }else{
+                target.show();
+            }
+        }
     </script>
     <style>
         button {
             width: 200px;
-            margin: 15px 10px 0;
+            margin: 0px 10px 0;
         }
     </style>
 </head>
@@ -82,10 +90,18 @@
 </div>
 <div data-dojo-type="dojox.mobile.View" style="height:100%; width: 100%; position:absolute">
     <h1 data-dojo-type="dojox.mobile.Heading">My Mobile App</h1>
+
     <div style="text-align: center">
-        <button class="mblBlueButton" data-dojo-type="dojox/mobile/Button" onclick="setPosition('start')">Swipe from Left</button>
-        <button class="mblBlueButton" data-dojo-type="dojox/mobile/Button" onclick="setPosition('end')">Swipe from Right</button>
+        Swipe the screen from left or right.<br>
+        - or -<br>
+        <button id="toggleLeft" class="mblRedButton" data-dojo-type="dojox/mobile/Button" onclick="toggle(sidePane)">Toggle Show/Hide</button>
     </div>
+    <br><br>
+    <div style="text-align: center">
+        <button id="toggleButton" class="mblBlueButton" data-dojo-type="dojox/mobile/Button" onclick="setPosition">Toggle Panel Position</button>
+        <br>(close Panel before toggle)
+    </div>
+
     <div id="leftTip" style="text-align: left; font-size: 3em; font-weight: bold">&gt;&gt;&gt;</div>
     <div id="rightTip" style="display: none; text-align: right; font-size: 3em; font-weight: bold">&lt;&lt;&lt;</div>
 </div>
