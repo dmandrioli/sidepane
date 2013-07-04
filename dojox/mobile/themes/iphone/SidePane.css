@@ -1,0 +1,109 @@
+.mblSidePane {
+    width: 15em;
+    height: 100%;
+    top: 0;
+    box-sizing: border-box;
+    position: fixed;
+    -webkit-transform: translate3d(0, 0, 0);
+}
+.mblSidePaneOverlay {
+    width: 25%;
+    z-index: 1000;
+}
+.mblSidePanePush {
+    z-index: 1000;
+}
+.animateTransform {
+    -moz-transition: -moz-transform 0.5s ease-in-out;
+    -webkit-transition: -webkit-transform 0.5s ease-in-out;
+    -ms-transition: -mstransform 0.5s ease-in-out;
+    transition: transform 0.5s ease-in-out;
+}
+.mblSidePaneStart {
+    -moz-transition: left 0.5s ease-in-out;
+    -webkit-transition: left 0.5s ease-in-out;
+    -ms-transition: left 0.5s ease-in-out;
+    transition: left 0.5s ease-in-out;
+    border-right: solid black 1px;
+}
+.mblSidePaneEnd {
+    -moz-transition: right 0.5s ease-in-out;
+    -webkit-transition: right 0.5s ease-in-out;
+    -ms-transition: right 0.5s ease-in-out;
+    transition: right 0.5s ease-in-out;
+    border-left: solid black 1px;
+}
+.noSelect {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+.mblSidePaneStartPushHiddenPane {
+    -webkit-transform: translate3d(-15em, 0px, 0px);
+    transform: translate3d(-15em, 0px, 0px);
+    -moz-transition: -moz-transform 0.5s ease-in-out;
+    -webkit-transition: -webkit-transform 0.5s ease-in-out;
+    -ms-transition: -mstransform 0.5s ease-in-out;
+    transition: transform 0.5s ease-in-out;
+}
+.mblSidePaneStartPushVisiblePane {
+    -webkit-transform: translate3d(0px, 0px, 0px);
+    transform: translate3d(0px, 0px, 0px);
+    -moz-transition: -moz-transform 0.5s ease-in-out;
+    -webkit-transition: -webkit-transform 0.5s ease-in-out;
+    -ms-transition: -mstransform 0.5s ease-in-out;
+    transition: transform 0.5s ease-in-out;
+}
+.mblSidePaneStartPushHiddenWrapper {
+    -webkit-transform: translate3d(15em, 0px, 0px);
+    transform: translate3d(15em, 0px, 0px);
+    -moz-transition: -moz-transform 0.5s ease-in-out;
+    -webkit-transition: -webkit-transform 0.5s ease-in-out;
+    -ms-transition: -mstransform 0.5s ease-in-out;
+    transition: transform 0.5s ease-in-out;
+}
+.mblSidePaneStartPushVisibleWrapper {
+    -webkit-transform: translate3d(0px, 0px, 0px);
+    transform: translate3d(px, 0px, 0px);
+    -moz-transition: -moz-transform 0.5s ease-in-out;
+    -webkit-transition: -webkit-transform 0.5s ease-in-out;
+    -ms-transition: -mstransform 0.5s ease-in-out;
+    transition: transform 0.5s ease-in-out;
+}
+.mblSidePaneEndPushHiddenPane {
+    right: 0;
+    -webkit-transform: translate3d(15em, 0px, 0px);
+    transform: translate3d(15em, 0px, 0px);
+    -moz-transition: -moz-transform 0.5s ease-in-out;
+    -webkit-transition: -webkit-transform 0.5s ease-in-out;
+    -ms-transition: -mstransform 0.5s ease-in-out;
+    transition: transform 0.5s ease-in-out;
+}
+.mblSidePaneEndPushVisiblePane {
+    right: 0;
+    -webkit-transform: translate3d(0px, 0px, 0px);
+    transform: translate3d(0px, 0px, 0px);
+    -moz-transition: -moz-transform 0.5s ease-in-out;
+    -webkit-transition: -webkit-transform 0.5s ease-in-out;
+    -ms-transition: -mstransform 0.5s ease-in-out;
+    transition: transform 0.5s ease-in-out;
+}
+.mblSidePaneEndPushHiddenWrapper {
+    -webkit-transform: translate3d(-15em, 0px, 0px);
+    transform: translate3d(-15em, 0px, 0px);
+    -moz-transition: -moz-transform 0.5s ease-in-out;
+    -webkit-transition: -webkit-transform 0.5s ease-in-out;
+    -ms-transition: -mstransform 0.5s ease-in-out;
+    transition: transform 0.5s ease-in-out;
+}
+.mblSidePaneEndPushVisibleWrapper {
+    -webkit-transform: translate3d(0px, 0px, 0px);
+    transform: translate3d(0px, 0px, 0px);
+    -moz-transition: -moz-transform 0.5s ease-in-out;
+    -webkit-transition: -webkit-transform 0.5s ease-in-out;
+    -ms-transition: -mstransform 0.5s ease-in-out;
+    transition: transform 0.5s ease-in-out;
+}
