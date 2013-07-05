@@ -11,7 +11,7 @@ Push mode: http://ibm.biz/BdxTqX
 
 ## Installing
 
-Copy the content of this repository in a Dojo 1.9 distribution.
+Copy the content of this repository into a Dojo 1.9 distribution.
 
 ## Tested platforms
 
