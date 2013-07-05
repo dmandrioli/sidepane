@@ -10,7 +10,7 @@ Push mode: http://dmandrioli.github.com/dojox/mobile/tests/test_SidePane-push.ht
 
 ## Installing
 
-Copy the content of this repository in a Dojo 1.9 distribution. Run
+Copy the content of this repository in a Dojo 1.9 distribution.
 
 ## Tested platforms
 
