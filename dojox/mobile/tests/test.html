@@ -7,7 +7,7 @@
     <meta name="apple-mobile-web-app-capable" content="yes"/>
     <title>My Mobile App</title>
 
-    <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/dojo/1.9.0/dojox/mobile/deviceTheme.js" data-dojo-config="mblThemeFiles: ['base','SidePane', 'Button']"></script>
+    <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/dojo/1.9.0/dojox/mobile/deviceTheme.js" data-dojo-config="mblThemeFiles: ['base','../themes/iphone/SidePane.css', 'Button']"></script>
     <script src="//ajax.googleapis.com/ajax/libs/dojo/1.9.0/dojo/dojo.js" data-dojo-config="async: true, parseOnLoad: true"></script>
 
     <script type="text/javascript">
@@ -25,7 +25,7 @@
             "dojox/mobile/ExpandingTextArea",
             "dojox/mobile/ToggleButton",
             "dojox/mobile/ScrollableView",
-            "../SidePane"
+            "../SidePane.js"
         ]);
         function toggle(target){
             if(target.get("state") == "open"){
