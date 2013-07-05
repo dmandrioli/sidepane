@@ -6,6 +6,7 @@ content of the page (mode=push).
 ## Samples
 
 Overlay mode: http://dmandrioli.github.com/dojox/mobile/tests/test_SidePane-overlay.html
+
 Push mode: http://dmandrioli.github.com/dojox/mobile/tests/test_SidePane-push.html
 
 ## Installing
