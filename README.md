@@ -5,9 +5,9 @@ content of the page (mode=push).
 
 ## Samples
 
-Overlay mode: http://dmandrioli.github.com/dojox/mobile/tests/test_SidePane-overlay.html
+Overlay mode: http://ibm.biz/BdxTqH
 
-Push mode: http://dmandrioli.github.com/dojox/mobile/tests/test_SidePane-push.html
+Push mode: http://ibm.biz/BdxTqX
 
 ## Installing
 
