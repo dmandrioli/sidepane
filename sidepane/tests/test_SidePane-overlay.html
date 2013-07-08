@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html style="height:100%">
+<head>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8"/>
+    <meta name="viewport"
+          content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no"/>
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+    <title>My Mobile App</title>
+    <link rel="stylesheet" href="../css/SidePane.css">
+    <script type="text/javascript" src="../../dojox/mobile/deviceTheme.js" data-dojo-config="mblThemeFiles: ['base', 'Button']"></script>
+    <script type="text/javascript" src="../../dojo/dojo.js"
+            data-dojo-config="async: true, parseOnLoad: true"></script>
+
+    <script type="text/javascript">
+        require([
+            "dojox/mobile",
+            "dojox/mobile/parser",
+            "dojox/mobile/Button",
+            "dojox/mobile/ScrollableView",
+            "sidepane/SidePane"
+        ]);
+        function toggle(target){
+            if(target.get("state") == "open"){
+                target.hide();
+            }else{
+                target.show();
+            }
+        }
+    </script>
+</head>
+<body style="height: 100%; visibility:hidden;">
+<div data-dojo-type="dojox/mobile/View" style="height:100%">
+    <h1 data-dojo-type="dojox/mobile/Heading">My Mobile App</h1>
+    <div style="text-align: center">
+        Swipe the screen from left or right.<br>
+        - or -<br>
+        <button id="toggleLeft" class="mblRedButton" data-dojo-type="dojox/mobile/Button" onclick="toggle(leftPane)">Toggle Left</button>
+        <button id="toggleRight" class="mblBlueButton" data-dojo-type="dojox/mobile/Button" onclick="toggle(rightPane)">Toggle Right</button>
+    </div>
+
+</div>
+<div style="width:30%;" data-dojo-type="sidepane/SidePane" data-dojo-props="mode:'overlay', position:'start'" data-dojo-id="leftPane">
+    <div data-dojo-type="dojox/mobile/ScrollableView" style="height:100%">
+        <ul data-dojo-type="dojox/mobile/EdgeToEdgeList" style="height:100%;">
+            <li data-dojo-type="dojox/mobile/ListItem">A</li>
+            <li data-dojo-type="dojox/mobile/ListItem">B</li>
+            <li data-dojo-type="dojox/mobile/ListItem">C</li>
+            <li data-dojo-type="dojox/mobile/ListItem">D</li>
+            <li data-dojo-type="dojox/mobile/ListItem">E</li>
+            <li data-dojo-type="dojox/mobile/ListItem">F</li>
+            <li data-dojo-type="dojox/mobile/ListItem">G</li>
+            <li data-dojo-type="dojox/mobile/ListItem">H</li>
+            <li data-dojo-type="dojox/mobile/ListItem">I</li>
+            <li data-dojo-type="dojox/mobile/ListItem">J</li>
+            <li data-dojo-type="dojox/mobile/ListItem">K</li>
+            <li data-dojo-type="dojox/mobile/ListItem">L</li>
+            <li data-dojo-type="dojox/mobile/ListItem">M</li>
+            <li data-dojo-type="dojox/mobile/ListItem">N</li>
+            <li data-dojo-type="dojox/mobile/ListItem">O</li>
+            <li data-dojo-type="dojox/mobile/ListItem">P</li>
+            <li data-dojo-type="dojox/mobile/ListItem">Q</li>
+            <li data-dojo-type="dojox/mobile/ListItem">R</li>
+            <li data-dojo-type="dojox/mobile/ListItem">S</li>
+            <li data-dojo-type="dojox/mobile/ListItem">T</li>
+            <li data-dojo-type="dojox/mobile/ListItem">U</li>
+            <li data-dojo-type="dojox/mobile/ListItem">V</li>
+            <li data-dojo-type="dojox/mobile/ListItem">W</li>
+            <li data-dojo-type="dojox/mobile/ListItem">X</li>
+            <li data-dojo-type="dojox/mobile/ListItem">Y</li>
+            <li data-dojo-type="dojox/mobile/ListItem">Z</li>
+        </ul>
+    </div>
+</div>
+<div style="width:40%;" data-dojo-type="sidepane/SidePane" data-dojo-props="mode:'overlay', position:'end'" data-dojo-id="rightPane">
+    <div data-dojo-type="dojox/mobile/ScrollableView" style="height:100%">
+        <ul data-dojo-type="dojox/mobile/EdgeToEdgeList" style="height:100%;">
+            <li data-dojo-type="dojox/mobile/ListItem">A</li>
+            <li data-dojo-type="dojox/mobile/ListItem">B</li>
+            <li data-dojo-type="dojox/mobile/ListItem">C</li>
+            <li data-dojo-type="dojox/mobile/ListItem">D</li>
+            <li data-dojo-type="dojox/mobile/ListItem">E</li>
+            <li data-dojo-type="dojox/mobile/ListItem">F</li>
+            <li data-dojo-type="dojox/mobile/ListItem">G</li>
+            <li data-dojo-type="dojox/mobile/ListItem">H</li>
+            <li data-dojo-type="dojox/mobile/ListItem">I</li>
+            <li data-dojo-type="dojox/mobile/ListItem">J</li>
+            <li data-dojo-type="dojox/mobile/ListItem">K</li>
+            <li data-dojo-type="dojox/mobile/ListItem">L</li>
+            <li data-dojo-type="dojox/mobile/ListItem">M</li>
+            <li data-dojo-type="dojox/mobile/ListItem">N</li>
+            <li data-dojo-type="dojox/mobile/ListItem">O</li>
+            <li data-dojo-type="dojox/mobile/ListItem">P</li>
+            <li data-dojo-type="dojox/mobile/ListItem">Q</li>
+            <li data-dojo-type="dojox/mobile/ListItem">R</li>
+            <li data-dojo-type="dojox/mobile/ListItem">S</li>
+            <li data-dojo-type="dojox/mobile/ListItem">T</li>
+            <li data-dojo-type="dojox/mobile/ListItem">U</li>
+            <li data-dojo-type="dojox/mobile/ListItem">V</li>
+            <li data-dojo-type="dojox/mobile/ListItem">W</li>
+            <li data-dojo-type="dojox/mobile/ListItem">X</li>
+            <li data-dojo-type="dojox/mobile/ListItem">Y</li>
+            <li data-dojo-type="dojox/mobile/ListItem">Z</li>
+        </ul>
+    </div>
+</div>
+</body>
+</html>
