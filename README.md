@@ -7,9 +7,9 @@ To open/close the panel, swipe from the border of the screen to the center.
 
 ## Samples
 
-Overlay mode: http://ibm.biz/BdxTqH
+Overlay mode: http://dmandrioli.github.io/sidepane/tests/test_SidePane-overlay.html
 
-Push mode: http://ibm.biz/BdxTqX
+Push mode: http://dmandrioli.github.io/sidepane/tests/test_SidePane-push.html
 
 ## Installing
 
