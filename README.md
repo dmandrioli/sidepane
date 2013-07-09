@@ -13,7 +13,7 @@ Push mode: http://dmandrioli.github.io/sidepane/tests/test_SidePane-push.html
 
 ## Installing
 
-Copy the 'sidepane' directory into a Dojo 1.9 distribution, next to 'dojo', 'dojox' and 'dijit'.
+Clone this repository into a Dojo 1.9 distribution, next to 'dojo', 'dojox' and 'dijit'.
 
 ## Tested platforms
 
@@ -27,7 +27,7 @@ Copy the 'sidepane' directory into a Dojo 1.9 distribution, next to 'dojo', 'doj
 * In overlay mode, the size of the panel can't be set in HTML. It is set to 15em by default. To change this value,
 change @PANEL_WIDTH in SidePane.less and regenerate themes.
 
-* Windows Phone and Blackberry: opening a right panel using swipe gesture does not work. Should be fixed quickly.
+* Windows Phone and Blackberry: opening a right panel using swipe gesture does not work.
 
 ## Credits
 
