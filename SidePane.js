@@ -262,6 +262,17 @@ define([
                     }
                 }
             }
+        },
+        destroy: function(){
+            if(this._pressListener){
+                this._pressListener.remove();
+            }
+            if(this._moveListener){
+                this._moveListener.remove();
+            }
+            if(this._releaseListener){
+                this._releaseListener.remove();
+            }
         }
     });
 });
