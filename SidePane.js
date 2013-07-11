@@ -81,9 +81,9 @@ define([
                 }else{
                     this._makingVisible = true;
                 }
-                this._pressListener.remove();
-                this._moveListener = on(win.doc, touch.move, lang.hitch(this, this._touchMove));
-                this._releaseListener = on(win.doc, touch.release, lang.hitch(this, this._touchRelease));
+                this._pressHandle.remove();
+                this._moveHandle = on(win.doc, touch.move, lang.hitch(this, this._touchMove));
+                this._releaseHandle = on(win.doc, touch.release, lang.hitch(this, this._touchRelease));
                 domClass.add(win.doc.body, "noSelect");
             }
         },
@@ -128,16 +128,16 @@ define([
         },
 
         _resetInteractions: function(){
-            if (this._releaseListener){
-                this._releaseListener.remove();
+            if (this._releaseHandle){
+                this._releaseHandle.remove();
             }
-            if(this._moveListener){
-                this._moveListener.remove();
+            if(this._moveHandle){
+                this._moveHandle.remove();
             }
-            if(this._pressListener){
-                this._pressListener.remove();
+            if(this._pressHandle){
+                this._pressHandle.remove();
             }
-            this._pressListener = on(this._visible ? this.domNode : win.doc, touch.press, lang.hitch(this, this._touchPress));
+            this._pressHandle = on(this._visible ? this.domNode : win.doc, touch.press, lang.hitch(this, this._touchPress));
 
             this._originX = NaN;
             this._originY = NaN;
@@ -264,14 +264,14 @@ define([
             }
         },
         destroy: function(){
-            if(this._pressListener){
-                this._pressListener.remove();
+            if(this._pressHandle){
+                this._pressHandle.remove();
             }
-            if(this._moveListener){
-                this._moveListener.remove();
+            if(this._moveHandle){
+                this._moveHandle.remove();
             }
-            if(this._releaseListener){
-                this._releaseListener.remove();
+            if(this._releaseHandle){
+                this._releaseHandle.remove();
             }
         }
     });
