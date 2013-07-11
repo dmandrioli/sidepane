@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html style="height:100%">
+<head>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8"/>
+    <meta name="viewport"
+          content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no"/>
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+    <title>My Mobile App</title>
+    <link rel="stylesheet" href="../css/SidePane.css">
+    <script type="text/javascript" src="../../dojox/mobile/deviceTheme.js" data-dojo-config="mblThemeFiles: ['base', 'Button']"></script>
+    <script type="text/javascript" src="../../dojo/dojo.js"
+            data-dojo-config="async: true, parseOnLoad: true"></script>
+
+    <script type="text/javascript">
+        require([
+            "dojox/mobile",
+            "dojox/mobile/parser",
+            "dojox/mobile/Button",
+            "dojox/mobile/ScrollableView",
+            "sidepane/SidePane",
+            "sidepane/SidePaneView"
+        ]);
+        function setPosition(){
+            pos = sidePane.get("position") == "start" ? "end" : "start";
+            sidePane.set('position', pos);
+            if(pos == "start"){
+                leftTip.style.display = "";
+                rightTip.style.display = "none";
+            }else{
+                leftTip.style.display = "none";
+                rightTip.style.display = "";
+            }
+        }
+        function toggle(target){
+            if(target.get("state") == "open"){
+                target.hide();
+            }else{
+                target.show();
+            }
+        }
+    </script>
+</head>
+<body style="height: 100%; visibility:hidden;">
+<div data-dojo-type="sidepane/SidePaneView" id="tv" style="width:100%; height: 100%">
+    <div data-dojo-type="sidepane/SidePane" data-dojo-props="mode: 'resize', position:'start'" data-dojo-id="sidePane">
+        <div data-dojo-type="dojox/mobile/ScrollableView" style="height:100%">
+            <ul data-dojo-type="dojox/mobile/EdgeToEdgeList" style="height:100%;">
+                <li data-dojo-type="dojox/mobile/ListItem">Aifoje fozj ofj z gejg ije</li>
+                <li data-dojo-type="dojox/mobile/ListItem">Bgerge ger gerg erge </li>
+                <li data-dojo-type="dojox/mobile/ListItem">Cfze ofiozj fizj ifoj</li>
+                <li data-dojo-type="dojox/mobile/ListItem">Dgergerg erg egegz</li>
+                <li data-dojo-type="dojox/mobile/ListItem">Eger er gre gerg er g</li>
+                <li data-dojo-type="dojox/mobile/ListItem">Frge r gerg e ger ge </li>
+                <li data-dojo-type="dojox/mobile/ListItem">Guy-(utjhtr rtr</li>
+                <li data-dojo-type="dojox/mobile/ListItem">Hhtrh,ohi orjh ro</li>
+                <li data-dojo-type="dojox/mobile/ListItem">ItrrkgprkI</li>
+                <li data-dojo-type="dojox/mobile/ListItem">Jthrd rthrthrth r</li>
+                <li data-dojo-type="dojox/mobile/ListItem">K g rg g r gr</li>
+                <li data-dojo-type="dojox/mobile/ListItem">Lfzef zf z fze fze f ze</li>
+                <li data-dojo-type="dojox/mobile/ListItem">Mfize fjfj ofjziofj iozj fo</li>
+                <li data-dojo-type="dojox/mobile/ListItem">N fjfozj fiozej fiozj </li>
+                <li data-dojo-type="dojox/mobile/ListItem">Opfokze pofkzpoe fpozekf</li>
+                <li data-dojo-type="dojox/mobile/ListItem">Pzokpoaozk epa oepoa</li>
+                <li data-dojo-type="dojox/mobile/ListItem">Qf e f fe fe f e f</li>
+                <li data-dojo-type="dojox/mobile/ListItem">R</li>
+                <li data-dojo-type="dojox/mobile/ListItem">S</li>
+                <li data-dojo-type="dojox/mobile/ListItem">T</li>
+                <li data-dojo-type="dojox/mobile/ListItem">U</li>
+                <li data-dojo-type="dojox/mobile/ListItem">V</li>
+                <li data-dojo-type="dojox/mobile/ListItem">W</li>
+                <li data-dojo-type="dojox/mobile/ListItem">X</li>
+                <li data-dojo-type="dojox/mobile/ListItem">Y</li>
+                <li data-dojo-type="dojox/mobile/ListItem">Z</li>
+            </ul>
+        </div>
+    </div>
+    <div data-dojo-type="dojox/mobile/View" style="height:100%; width: 100%;">
+        <h1 data-dojo-type="dojox/mobile/Heading">My Mobile App</h1>
+
+        <div style="text-align: center">
+            Swipe the screen from left or right.<br>
+            - or -<br>
+            <button id="toggleLeft" class="mblRedButton" data-dojo-type="dojox/mobile/Button" onclick="toggle(sidePane)">Toggle Show/Hide</button>
+        </div>
+        <br><br>
+        <div style="text-align: center">
+            <button id="toggleButton" class="mblBlueButton" data-dojo-type="dojox/mobile/Button" onclick="setPosition">Toggle Panel Position</button>
+            <br>(close Panel before toggle)
+        </div>
+
+        <div id="leftTip" style="text-align: left; font-size: 3em; font-weight: bold">&gt;&gt;&gt;</div>
+        <div id="rightTip" style="display: none; text-align: right; font-size: 3em; font-weight: bold">&lt;&lt;&lt;</div>
+    </div>
+</div>
+</body>
+</html>
