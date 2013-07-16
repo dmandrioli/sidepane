@@ -72,6 +72,10 @@ define([
             this._originX = event.pageX;
             this._originY = event.pageY;
 
+            if(this.domNode.style.display == "none"){
+                this.domNode.style.display = "";
+            }
+
             if(this._visible || (this.position == "start" && !this._visible && this._originX <= 10) ||
                 (this.position == "end" && !this._visible && this._originX >= win.doc.width - 10)){
                 if(this._visible){
@@ -142,18 +146,13 @@ define([
             this._originY = NaN;
         },
 
-        _hideAndReveal: function(){
-            this.domNode.style.display = "none";
-            setTimeout(lang.hitch(this, function(){this.domNode.style.display = "";}),0);
-        },
-
         postCreate: function(){
-            this._hideAndReveal();
+            this.inherited(arguments);
+            this.domNode.style.display = "none";
         },
 
         buildRendering: function(){
             this.inherited(arguments);
-            this._hideAndReveal();
 
             // Clean CSS
             var props = [
