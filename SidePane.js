@@ -39,7 +39,6 @@ define([
             // summary:
             //		Open the panel.
             this._showImpl();
-            this._resetInteractions();
             var opts = {bubbles:true, cancelable:true, detail: this};
             on.emit(this.domNode,"showStart", opts);
         },
@@ -48,7 +47,6 @@ define([
             // summary:
             //		Close the panel.
             this._hideImpl();
-            this._resetInteractions();
             var opts = {bubbles:true, cancelable:true, detail: this};
             on.emit(this.domNode,"hideStart", opts);
         },
@@ -84,6 +82,7 @@ define([
                 this._pressHandle.remove();
                 this._moveHandle = on(win.doc, touch.move, lang.hitch(this, this._touchMove));
                 this._releaseHandle = on(win.doc, touch.release, lang.hitch(this, this._touchRelease));
+
                 domClass.add(win.doc.body, "noSelect");
             }
         },
