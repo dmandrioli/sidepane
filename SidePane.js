@@ -20,7 +20,7 @@ define([
         //		If mode is set to "push" or "reveal", the width of the SidePane can't be changed in the markup (15em by default).
         //		However it can be changed in SidePane.less (@PANE_WIDTH variable) to regenerate SidePane.css.
         //		In "push" and "reveal" mode, the pushed element is the first sibling of the SidePane which is is of type element
-        //		(nodeType == 1)
+        //		(nodeType == 1) and not a SidePane.
 
         // baseClass: String
         //		The name of the CSS class of this widget.
