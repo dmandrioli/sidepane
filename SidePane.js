@@ -11,22 +11,22 @@ define([
 
     return declare(WidgetBase, {
         // summary:
-        //		A container displayed on the side of the screen. It can be displayed on top of the page (mode=overlay)
-        //		or can push the content of the page (mode=push).
+        //		A container displayed on the side of the screen. It can be displayed on top of the page (mode=overlay) or
+        //		can push the content of the page (mode=push or mode=reveal).
         // description:
         //		SidePane is an interactive container hidden by default. To open it, swipe the screen from the border to the center of the page.
         //		To close it, swipe horizontally the panel in the other direction.
-        //		This widget must be a sibling of html's body element.
-        //		If mode is set to "push", there are some rules to follow:
-        //		1. The pushed element(s) have to be wrapped into a single html container with its "position" CSS property set to "absolute".
-        //		2. Place the widget just before this single container, whatever the value of position.
-        //		3. The width of the SidePane can't be changed in the markup (15em by default). However it can be changed in the LESS/CSS files.
+        //		This widget must be a sibling of html's body element or use the entire screen.
+        //		If mode is set to "push" or "reveal", the width of the SidePane can't be changed in the markup (15em by default).
+        //		However it can be changed in SidePane.less (@PANE_WIDTH variable) to regenerate SidePane.css.
+        //		In "push" and "reveal" mode, the pushed element is the first sibling of the SidePane which is is of type element
+        //		(nodeType == 1)
 
         // baseClass: String
         //		The name of the CSS class of this widget.
         baseClass: "mblSidePane",
         // mode: String
-        //		Can be "overlay" or "push".
+        //		Can be "overlay", "reveal" or "push".
         mode: "overlay",
         // position: String
         //		Can be "start" or "end". If set to "start", the panel is displayed on the left side in left-to-right mode.
@@ -41,6 +41,7 @@ define([
             this._showImpl();
             var opts = {bubbles:true, cancelable:true, detail: this};
             on.emit(this.domNode,"showStart", opts);
+
         },
 
         hide: function(){
@@ -55,19 +56,73 @@ define([
         _makingVisible: false,
         _originX: NaN,
         _originY: NaN,
+        _cssClasses: {},
 
         _setPositionAttr: function(value){
+            this.domNode.style.display = "none";
             this.position = value;
             this.buildRendering();
         },
 
         _setModeAttr: function(value){
+            this.domNode.style.display = "none";
             this.mode = value;
             this.buildRendering();
         },
-        _getStateAttr: function(value){
+
+        _getStateAttr: function(){
             return this._visible ? "open" : "close";
         },
+
+        postCreate: function(){
+            this.inherited(arguments);
+            this.domNode.style.display = "none";
+        },
+
+        buildRendering: function(){
+            this.inherited(arguments);
+            this._cleanCSS();
+            this._addClass(this.domNode, "mblSidePane" + this._capitalize(this.position));
+
+            if(this.inheritViewBg){
+                this._addClass(this.domNode, "mblBackground");
+            }
+            this.hide();
+            this._resetInteractions();
+        },
+
+        _showImpl: function(){
+            this._visible = true;
+            this._changeClass(this.domNode, "VisiblePane", "HiddenPane");
+
+            if(this.mode == "overlay"){
+                this.domNode.style[this.position=="start" ? "left" : "right"] = 0;
+            }else if(this.mode == "push" || this.mode == "reveal"){
+                var nextElement = this._findPushedElement(this.domNode);
+                if(nextElement){
+                    var addedClass = "mblSidePane" + this._capitalize(this.position) + "PushHiddenWrapper";
+                    this._changeClass(nextElement, addedClass, addedClass.replace("Hidden", "Visible"));
+                }
+            }
+        },
+
+        _hideImpl: function(){
+            this._visible = false;
+            this._makingVisible = false;
+            this._removeClass(win.doc.body, "noSelect");
+            this._changeClass(this.domNode, "HiddenPane", "VisiblePane");
+
+            if(this.mode == "overlay"){
+                this.domNode.style[this.position=="start" ? "left" : "right"] = "-100%";
+            }else if(this.mode == "push" || this.mode == "reveal"){
+                var nextElement = this._findPushedElement(this.domNode);
+                if(nextElement){
+                    var removedClass = "mblSidePane" + this._capitalize(this.position) + "PushHiddenWrapper";
+                    this._changeClass(nextElement, removedClass.replace("Hidden", "Visible"), removedClass);
+                }
+            }
+        },
+
         _touchPress: function(event){
             this._originX = event.pageX;
             this._originY = event.pageY;
@@ -78,16 +133,12 @@ define([
 
             if(this._visible || (this.position == "start" && !this._visible && this._originX <= 10) ||
                 (this.position == "end" && !this._visible && this._originX >= win.doc.width - 10)){
-                if(this._visible){
-                    this._makingVisible = false;
-                }else{
-                    this._makingVisible = true;
-                }
+                this._makingVisible = !this._visible;
                 this._pressHandle.remove();
                 this._moveHandle = on(win.doc, touch.move, lang.hitch(this, this._touchMove));
                 this._releaseHandle = on(win.doc, touch.release, lang.hitch(this, this._touchRelease));
 
-                domClass.add(win.doc.body, "noSelect");
+                this._addClass(win.doc.body, "noSelect");
             }
         },
 
@@ -96,6 +147,7 @@ define([
                 this._resetInteractions();
             }else{
                 var pos = event.pageX;
+
                 if(this.position == "start"){
                     if(!this._visible && (pos - this._originX) > 10){
                         this.show();
@@ -103,6 +155,7 @@ define([
                         if (this._originX < pos){
                             this._originX = pos;
                         }
+
                         if((this._originX - pos) > 10){
                             this.hide();
                             this._originX = pos;
@@ -126,7 +179,7 @@ define([
 
         _touchRelease: function(event){
             this._makingVisible = false;
-            domClass.remove(win.doc.body, "noSelect");
+            this._removeClass(win.doc.body, "noSelect");
             this._resetInteractions();
         },
 
@@ -146,122 +199,68 @@ define([
             this._originY = NaN;
         },
 
-        postCreate: function(){
-            this.inherited(arguments);
-            this.domNode.style.display = "none";
-        },
-
-        buildRendering: function(){
-            this.inherited(arguments);
-
-            // Clean CSS
-            var props = [
-                "mblSidePaneEnd",
-                "mblSidePanePush",
-                "mblSidePaneStart",
-                "mblSidePaneOverlay",
-                "mblSidePaneEndPushHiddenPane",
-                "mblSidePaneEndPushVisiblePane",
-                "mblSidePaneStartPushHiddenPane",
-                "mblSidePaneStartPushVisiblePane"
-            ];
-
-            for (var i in props){
-                domClass.remove(this.domNode, props[i]);
-            }
-            var nextElement = this._getNextElement(this.domNode);
-            if(nextElement){
-                domClass.remove(nextElement, "mblSidePaneStartPushHiddenWrapper");
-                domClass.remove(nextElement, "mblSidePaneStartPushVisibleWrapper");
-                domClass.remove(nextElement, "mblSidePaneEndPushHiddenWrapper");
-                domClass.remove(nextElement, "mblSidePaneEndPushVisibleWrapper");
-            }
-            // Set CSS classes
-            if(this.mode == "overlay"){
-                domClass.add(this.domNode, "mblSidePaneOverlay");
-            }else if(this.mode == "push"){
-                domClass.add(this.domNode, "mblSidePanePush");
-            }
-            if(this.position == "start"){
-                domClass.add(this.domNode, "mblSidePaneStart");
+        _cssClassGen: function(suffix){
+            if(suffix.indexOf("mbl") == 0){
+                // Already a mobile class
+                return suffix;
             }else{
-                domClass.add(this.domNode, "mblSidePaneEnd");
-            }
-
-            if(this.inheritViewBg){
-                domClass.add(this.domNode, "mblBackground");
-            }else{
-                domClass.remove(this.domNode, "mblBackground");
-            }
-            this.hide();
-            this._resetInteractions();
-
-        },
-
-        _getNextElement: function(domElt){
-            var nextElement = domElt.nextSibling;
-            while (nextElement && nextElement.nodeType != 1){
-                nextElement = nextElement.nextSibling;
-            }
-            if(nextElement && nextElement.nodeType == 1){
-                return nextElement;
-            }else{
-                return null;
+                return "mblSidePane" + this._capitalize(this.position) + this._capitalize(this.mode) + suffix;
             }
         },
 
-        _showImpl: function(){
-            this._visible = true;
-            if(this.mode == "overlay"){
-                this.domNode.style[this.position=="start" ? "left" : "right"] = 0;
-            }else if(this.mode == "push"){
-                var nextElement = this._getNextElement(this.domNode);
-                if(this.position == "start"){
-                    domClass.add(this.domNode, "mblSidePaneStartPushVisiblePane");
-                    domClass.remove(this.domNode, "mblSidePaneStartPushHiddenPane");
-                    if(nextElement){
-                        domClass.add(nextElement, "mblSidePaneStartPushHiddenWrapper");
-                        domClass.remove(nextElement, "mblSidePaneStartPushVisibleWrapper");
-                    }
-                }else{
-                    domClass.add(this.domNode, "mblSidePaneEndPushVisiblePane");
-                    domClass.remove(this.domNode, "mblSidePaneEndPushHiddenPane");
-                    if(nextElement){
-                        domClass.add(nextElement, "mblSidePaneEndPushHiddenWrapper");
-                        domClass.remove(nextElement, "mblSidePaneEndPushVisibleWrapper");
-                    }
+        _addClass: function(node, suffix){
+            var cls = this._cssClassGen(suffix);
+            domClass.add(node, cls);
+            if(this._cssClasses[cls]){
+                this._cssClasses[cls].push(node);
+            }else{
+                this._cssClasses[cls] = [node];
+            }
+        },
+        _removeClass: function(node, suffix){
+            var cls = this._cssClassGen(suffix);
+            domClass.remove(node, cls);
+            if(this._cssClasses[cls]){
+                var i = this._cssClasses[cls].indexOf(node);
+                if(i != -1) {
+                    this._cssClasses[cls].splice(i, 1);
+                }
+            }else{
+                this._cssClasses[cls] = [node];
+            }
+        },
+
+        _changeClass: function(node, toAdd, toRemove){
+            this._addClass(node, toAdd);
+            this._removeClass(node, toRemove);
+        },
+
+        _cleanCSS: function(){
+            for(var cls in this._cssClasses){
+                for(var i = 0; i < this._cssClasses[cls].length; i++){
+                    this._removeClass(this._cssClasses[cls][i], cls);
                 }
             }
+            this._cssClasses = {};
         },
 
-        _hideImpl: function(){
-            this._visible = false;
-            this._makingVisible = false;
-            domClass.remove(win.doc.body, "noSelect");
-
-            if(this.mode == "overlay"){
-                this.domNode.style[this.position=="start" ? "left" : "right"] = "-100%";
-
-            }else if(this.mode == "push"){
-                var nextElement = this._getNextElement(this.domNode);
-                if(this.position == "start"){
-                    domClass.add(this.domNode, "mblSidePaneStartPushHiddenPane");
-                    domClass.remove(this.domNode, "mblSidePaneStartPushVisiblePane");
-                    if(nextElement){
-                        domClass.add(nextElement, "mblSidePaneStartPushVisibleWrapper");
-                        domClass.remove(nextElement, "mblSidePaneStartPushHiddenWrapper");
-                    }
-                }else{
-                    domClass.add(this.domNode, "mblSidePaneEndPushHiddenPane");
-                    domClass.remove(this.domNode, "mblSidePaneEndPushVisiblePane");
-                    if(nextElement){
-                        domClass.add(nextElement, "mblSidePaneEndPushVisibleWrapper");
-                        domClass.remove(nextElement, "mblSidePaneEndPushHiddenWrapper");
-                    }
+        _findPushedElement: function(domElt){
+            var siblings = domElt.parentElement.children;
+            for (var i = 0; i < siblings.length; i++){
+                if(siblings[i].nodeType == 1 && !domClass.contains(siblings[i], "mblSidePane")){
+                    return siblings[i];
                 }
             }
+            return null;
         },
+
+        _capitalize: function(str){
+            return str[0].toUpperCase() + str.substring(1);
+        },
+
         destroy: function(){
+            this._cleanCSS();
+
             if(this._pressHandle){
                 this._pressHandle.remove();
             }

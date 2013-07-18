@@ -1,7 +1,8 @@
 
-@ANIMATION_DURATION: 0.5s;
+@PANEL_WIDTH: 15em; // Change this value to modify the width of the pane
+@ANIMATION_DURATION: 0.4s;
 @ANIMATION_STYLE:  ease-in-out;
-@PANEL_WIDTH: 15em;
+
 
 .mblSidePane{
   width: @PANEL_WIDTH;
@@ -21,7 +22,6 @@
 .mblSidePanePush{
   z-index: 1000;
 }
-
 
 .animateTransform{
   -moz-transition: -moz-transform @ANIMATION_DURATION @ANIMATION_STYLE;
@@ -64,7 +64,7 @@
   .animateTransform();
 }
 .mblSidePaneStartPushVisiblePane{
-
+  display: "";
   -webkit-transform: translate3d(0px, 0px, 0px);
   transform: translate3d(0px, 0px, 0px);
   .animateTransform();
@@ -91,13 +91,14 @@
   .animateTransform();
 }
 .mblSidePaneEndPushVisiblePane{
-
+  display: "";
   right: 0;
   -webkit-transform: translate3d(0px, 0px, 0px);
   transform: translate3d(0px, 0px, 0px);
   .animateTransform();
 }
 
+// Used by REVEAL and PUSH
 .mblSidePaneEndPushHiddenWrapper{
   -webkit-transform: translate3d(-@PANEL_WIDTH, 0px, 0px);
   transform: translate3d(-@PANEL_WIDTH, 0px, 0px);
@@ -108,5 +109,3 @@
   transform: translate3d(0px, 0px, 0px);
   .animateTransform();
 }
-
-
