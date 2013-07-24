@@ -11,6 +11,8 @@ Overlay mode: http://dmandrioli.github.io/sidepane/tests/test_SidePane-overlay.h
 
 Push mode: http://dmandrioli.github.io/sidepane/tests/test_SidePane-push.html
 
+Reveal mode: http://dmandrioli.github.io/sidepane/tests/test_SidePane-reveal.html
+
 ## Installing
 
 Clone this repository into a Dojo 1.9 distribution, next to 'dojo', 'dojox' and 'dijit'.
