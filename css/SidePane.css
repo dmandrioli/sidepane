@@ -109,3 +109,7 @@
   -ms-transition: -mstransform 0.4s ease-in-out;
   transition: transform 0.4s ease-in-out;
 }
+
+.mblSidePaneEndRevealVisiblePane, .mblSidePaneEndRevealHiddenPane {
+  right: 0;
+}
