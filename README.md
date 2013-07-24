@@ -18,16 +18,24 @@ Clone this repository into a Dojo 1.9 distribution, next to 'dojo', 'dojox' and 
 ## Tested platforms
 
 * iOS 6.x
-* Android 4.x
+* Android 4.x (Chrome and stock browser)
 * Blackberry 10
 * Windows Phone 8
+* Chrome Desktop
+* Firefox Desktop
+* IE10 Desktop
 
-## Known bugs/limitations
+## Limitations
 
-* In overlay mode, the size of the panel can't be set in HTML. It is set to 15em by default. To change this value,
-change @PANEL_WIDTH in SidePane.less and regenerate themes.
+* In push and reveal mode, the size of the panel can't be set in HTML. It is 15em by default. To change this value,
+change @PANEL_WIDTH in SidePane.less and regenerate the stylesheet.
 
-* Windows Phone and Blackberry: opening a right panel using swipe gesture does not work.
+* Blackberry Chrome Mobile on Android have built-in left/right swipe gesture. On these platforms, swipe opening is not really usable.
+
+## Known bugs
+
+ * Swipe opening works only on iOS and desktop browsers.
+
 
 ## Credits
 

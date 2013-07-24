@@ -6,13 +6,6 @@
   position: fixed;
   -webkit-transform: translate3d(0, 0, 0);
 }
-.mblSidePaneOverlay {
-  width: 25%;
-  z-index: 1000;
-}
-.mblSidePanePush {
-  z-index: 1000;
-}
 .animateTransform {
   -moz-transition: -moz-transform 0.4s ease-in-out;
   -webkit-transition: -webkit-transform 0.4s ease-in-out;
@@ -109,7 +102,7 @@
   -ms-transition: -mstransform 0.4s ease-in-out;
   transition: transform 0.4s ease-in-out;
 }
-
-.mblSidePaneEndRevealVisiblePane, .mblSidePaneEndRevealHiddenPane {
+.mblSidePaneEndRevealVisiblePane,
+.mblSidePaneEndRevealHiddenPane {
   right: 0;
 }
