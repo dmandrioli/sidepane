@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html style="height:100%">
+<head>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8"/>
+    <meta name="viewport"
+          content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no"/>
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+    <title>My Mobile App</title>
+    <link rel="stylesheet" href="../css/SidePane.css">
+    <script type="text/javascript" src="../../dojox/mobile/deviceTheme.js" data-dojo-config="mblThemeFiles: ['base', 'Button']"></script>
+    <script type="text/javascript" src="../../dojo/dojo.js"
+            data-dojo-config="async: true, parseOnLoad: true"></script>
+
+    <script type="text/javascript">
+        require([
+            "dojo/store/JsonRest",
+            "dojox/mobile",
+            "dojox/mobile/parser",
+            "dojox/mobile/Button",
+            "dojox/mobile/ScrollableView",
+            "sidepane/SidePane"
+        ], function(JsonRest){
+            nav = function(event){
+                title.innerText = event.target.innerText;
+                leftPane.hide();
+                var url = baseURL.replace("REPO", title.innerText.toLowerCase());
+                try{
+                    var store = new JsonRest({
+                        target: url
+                    });
+
+                    store.query().then(function(item){
+                        console.log(item);
+                    });
+                }
+                catch(error){
+                    //console.log(error);
+                }
+
+
+            };
+
+            baseURL = "https://api.github.com/repos/dojo/REPO/commits";
+        });
+
+    </script>
+    <style>
+        ul[data-dojo-type = "dojox/mobile/EdgeToEdgeList"] {
+            background-color: black;
+        }
+        li[data-dojo-type = "dojox/mobile/ListItem"] {
+            color: white;
+        }
+        h1[data-dojo-type = "dojox/mobile/Heading"] {
+            z-index: 0;
+        }
+        div[data-dojo-type = "sidepane/SidePane"] {
+            box-shadow: 0px 0px 3px 3px #444444;
+        }
+
+    </style>
+</head>
+<body style="height: 100%; visibility:hidden;">
+<div data-dojo-type="dojox/mobile/View" style="height:100%">
+    <h1 data-dojo-type="dojox/mobile/Heading" id="title">Dojo</h1>
+</div>
+<div data-dojo-type="sidepane/SidePane" data-dojo-props="mode:'overlay', position:'start'" data-dojo-id="leftPane">
+
+    <ul data-dojo-type="dojox/mobile/EdgeToEdgeList" style="height: 100%;">
+        <li data-dojo-type="dojox/mobile/ListItem" data-dojo-props='moveTo:"#", onClick:nav'>Dojo</li>
+        <li data-dojo-type="dojox/mobile/ListItem" data-dojo-props='moveTo:"#", onClick:nav'>Dijit</li>
+        <li data-dojo-type="dojox/mobile/ListItem" data-dojo-props='moveTo:"#", onClick:nav'>Dojox</li>
+        <li data-dojo-type="dojox/mobile/ListItem" data-dojo-props='moveTo:"#", onClick:nav'>Demos</li>
+        <li data-dojo-type="dojox/mobile/ListItem" data-dojo-props='moveTo:"#", onClick:nav'>Docs</li>
+    </ul>
+
+</div>
+<div style="width:40%;" data-dojo-type="sidepane/SidePane" data-dojo-props="mode:'overlay', position:'end'" data-dojo-id="rightPane">
+    <div data-dojo-type="dojox/mobile/ScrollableView" style="height:100%">
+        <ul data-dojo-type="dojox/mobile/EdgeToEdgeList" style="height:100%;">
+            <li data-dojo-type="dojox/mobile/ListItem">A</li>
+            <li data-dojo-type="dojox/mobile/ListItem">B</li>
+            <li data-dojo-type="dojox/mobile/ListItem">C</li>
+            <li data-dojo-type="dojox/mobile/ListItem">D</li>
+            <li data-dojo-type="dojox/mobile/ListItem">E</li>
+            <li data-dojo-type="dojox/mobile/ListItem">F</li>
+            <li data-dojo-type="dojox/mobile/ListItem">G</li>
+            <li data-dojo-type="dojox/mobile/ListItem">H</li>
+            <li data-dojo-type="dojox/mobile/ListItem">I</li>
+            <li data-dojo-type="dojox/mobile/ListItem">J</li>
+            <li data-dojo-type="dojox/mobile/ListItem">K</li>
+            <li data-dojo-type="dojox/mobile/ListItem">L</li>
+            <li data-dojo-type="dojox/mobile/ListItem">M</li>
+            <li data-dojo-type="dojox/mobile/ListItem">N</li>
+            <li data-dojo-type="dojox/mobile/ListItem">O</li>
+            <li data-dojo-type="dojox/mobile/ListItem">P</li>
+            <li data-dojo-type="dojox/mobile/ListItem">Q</li>
+            <li data-dojo-type="dojox/mobile/ListItem">R</li>
+            <li data-dojo-type="dojox/mobile/ListItem">S</li>
+            <li data-dojo-type="dojox/mobile/ListItem">T</li>
+            <li data-dojo-type="dojox/mobile/ListItem">U</li>
+            <li data-dojo-type="dojox/mobile/ListItem">V</li>
+            <li data-dojo-type="dojox/mobile/ListItem">W</li>
+            <li data-dojo-type="dojox/mobile/ListItem">X</li>
+            <li data-dojo-type="dojox/mobile/ListItem">Y</li>
+            <li data-dojo-type="dojox/mobile/ListItem">Z</li>
+        </ul>
+    </div>
+</div>
+</body>
+</html>
