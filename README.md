@@ -36,7 +36,7 @@ change @PANEL_WIDTH in SidePane.less and regenerate the stylesheet.
 
 ## Known bugs
 
- * Swipe opening works only on iOS and desktop browsers.
+ * Swipe opening from the right works only on iOS and desktop browsers.
 
 
 ## Credits

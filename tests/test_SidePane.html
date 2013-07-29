@@ -1,110 +1,183 @@
 <!DOCTYPE html>
-<html style="height:100%">
+<html>
 <head>
     <meta http-equiv="Content-type" content="text/html; charset=utf-8"/>
     <meta name="viewport"
           content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no"/>
     <meta name="apple-mobile-web-app-capable" content="yes"/>
-    <title>My Mobile App</title>
+    <title>Dojo Commits Explorer</title>
     <link rel="stylesheet" href="../css/SidePane.css">
-    <script type="text/javascript" src="../../dojox/mobile/deviceTheme.js" data-dojo-config="mblThemeFiles: ['base', 'Button']"></script>
+    <!-- Force iPhone theme -->
+    <script type="text/javascript" src="../../dojox/mobile/deviceTheme.js" data-dojo-config="mblUserAgent: 'iPhone'"></script>
     <script type="text/javascript" src="../../dojo/dojo.js"
             data-dojo-config="async: true, parseOnLoad: true"></script>
 
     <script type="text/javascript">
         require([
             "dojo/store/JsonRest",
+            "dojo/store/Memory",
+            "dijit/registry",
+            "dojo/dom",
+            "dojo/ready",
+            "dojo/request/notify",
             "dojox/mobile",
             "dojox/mobile/parser",
-            "dojox/mobile/Button",
             "dojox/mobile/ScrollableView",
-            "sidepane/SidePane"
-        ], function(JsonRest){
-            nav = function(event){
-                title.innerText = event.target.innerText;
+            "sidepane/SidePane",
+            "dojox/mobile/EdgeToEdgeStoreList"
+
+        ], function(JsonRest, Memory, registry, dom, ready, notify){
+            notify("done", function(responseOrError){
                 leftPane.hide();
-                var url = baseURL.replace("REPO", title.innerText.toLowerCase());
-                try{
-                    var store = new JsonRest({
-                        target: url
+                busyItems.forEach(function(item){
+                    item.set("busy", false);
+                });
+                busyItems = [];
+
+                if(responseOrError instanceof Error){
+                    alert(responseOrError.response.text);
+                }
+            });
+
+            ready(function(){
+                var commitList = registry.byId("commitList");
+                var data = [];
+                // Fake data to fill the view background
+                for(var i=0; i<50; i++){
+                    data.push({label:''});
+                }
+                commitList.setStore(new Memory({data:data}));
+            });
+
+            gotoFile = function(item){
+                var data = registry.byNode(item.target.parentNode).data;
+                window.open(data.blob_url);
+            };
+
+            gotoCommit = function(item){
+                rightPane.show();
+                var data = registry.byNode(item.target.parentNode).data;
+                dom.byId("comName").innerHTML = data.author.name;
+                dom.byId("comMail").innerHTML = data.author.email;
+                dom.byId("comDate").innerHTML = data.author.date;
+                dom.byId("comMsg").innerHTML = data.message;
+
+                // Get commit file list
+                var store = new JsonRest({
+                    target: data.url.replace("/git/", "/")
+                });
+                store.query().then(function(obj){
+                    obj.files.forEach(function(it){
+                        it.onClick = gotoFile;
+                        it.label = it.filename;
+                        it.data = it;
+                        it.moveTo = "#";
                     });
 
-                    store.query().then(function(item){
-                        console.log(item);
-                    });
-                }
-                catch(error){
-                    //console.log(error);
-                }
-
+                    var fileList = registry.byId("fileList");
+                    fileList.setStore(new Memory({data:obj.files}));
+                });
 
             };
 
+            gotoRepo = function(event){
+                registry.byId("title").set("label", event.target.innerText + " Repository");
+                var listItem = registry.byNode(event.target.parentElement);
+                listItem.set("busy", true);
+                busyItems.push(listItem);
+
+                var store = new JsonRest({
+                    target: baseURL.replace("REPO", event.target.innerText.toLowerCase())
+                });
+                var commitList = registry.byId("commitList");
+                //commitList.set("itemMap", {onClick: "onClick"});
+
+                store.query().then(function(items){
+                    items.forEach(function(it){
+                        it.onClick = gotoCommit;
+                        it.label = it.commit.author.name + ": " + it.commit.message;
+                        it.data = it.commit;
+                        it.moveTo = "#";});
+
+                    commitList.setStore(new Memory({data:items}));
+                });
+            };
+
+            // This sample uses http://developer.github.com/v3/
             baseURL = "https://api.github.com/repos/dojo/REPO/commits";
+            busyItems = [];
         });
 
     </script>
     <style>
+        html, body, div[data-dojo-type = "dojox/mobile/View"] {
+            height: 100%;
+        }
         ul[data-dojo-type = "dojox/mobile/EdgeToEdgeList"] {
             background-color: black;
         }
         li[data-dojo-type = "dojox/mobile/ListItem"] {
             color: white;
         }
-        h1[data-dojo-type = "dojox/mobile/Heading"] {
-            z-index: 0;
+        div[data-dojo-type = "dojox/mobile/ScrollableView"] {
+            background-color: white;
         }
-        div[data-dojo-type = "sidepane/SidePane"] {
+
+        .mblSidePaneEndOverlayVisiblePane {
             box-shadow: 0px 0px 3px 3px #444444;
+            background-color: white;
+        }
+
+        hr {
+            border:0;
+            color:black;
+            background:black;
+            height:2px;
+        }
+
+            /* iPhone theme customization */
+        .mblHeading {
+            z-index: 0;
+            background-image: none;
+            background-color: #1AA1E1;
+            border: none;
+            box-shadow: inset 0 5px 5px -5px #444444;
+        }
+
+        .mblColorDefault {
+            background-color: black;
+            background-image: none;
         }
 
     </style>
 </head>
-<body style="height: 100%; visibility:hidden;">
-<div data-dojo-type="dojox/mobile/View" style="height:100%">
-    <h1 data-dojo-type="dojox/mobile/Heading" id="title">Dojo</h1>
-</div>
-<div data-dojo-type="sidepane/SidePane" data-dojo-props="mode:'overlay', position:'start'" data-dojo-id="leftPane">
-
+<body style="visibility:hidden;">
+<div data-dojo-type="sidepane/SidePane" data-dojo-props="mode:'reveal', position:'start'" data-dojo-id="leftPane"
+     style="background-color: #1AA1E1;">
+    <h1 data-dojo-type="dojox/mobile/Heading" data-dojo-props='label:"Choose a GitHub Repository"' style="font-size: 0.9em"></h1>
     <ul data-dojo-type="dojox/mobile/EdgeToEdgeList" style="height: 100%;">
-        <li data-dojo-type="dojox/mobile/ListItem" data-dojo-props='moveTo:"#", onClick:nav'>Dojo</li>
-        <li data-dojo-type="dojox/mobile/ListItem" data-dojo-props='moveTo:"#", onClick:nav'>Dijit</li>
-        <li data-dojo-type="dojox/mobile/ListItem" data-dojo-props='moveTo:"#", onClick:nav'>Dojox</li>
-        <li data-dojo-type="dojox/mobile/ListItem" data-dojo-props='moveTo:"#", onClick:nav'>Demos</li>
-        <li data-dojo-type="dojox/mobile/ListItem" data-dojo-props='moveTo:"#", onClick:nav'>Docs</li>
+        <li data-dojo-type="dojox/mobile/ListItem" data-dojo-props='icon:"mblDomButtonArrow", noArrow:true, moveTo:"#", onClick:gotoRepo'>Dojo</li>
+        <li data-dojo-type="dojox/mobile/ListItem" data-dojo-props='icon:"mblDomButtonArrow", noArrow:true, moveTo:"#", onClick:gotoRepo'>Dijit</li>
+        <li data-dojo-type="dojox/mobile/ListItem" data-dojo-props='icon:"mblDomButtonArrow", noArrow:true, moveTo:"#", onClick:gotoRepo'>Dojox</li>
+        <li data-dojo-type="dojox/mobile/ListItem" data-dojo-props='icon:"mblDomButtonArrow", noArrow:true, moveTo:"#", onClick:gotoRepo'>Demos</li>
+        <li data-dojo-type="dojox/mobile/ListItem" data-dojo-props='icon:"mblDomButtonArrow", noArrow:true, moveTo:"#", onClick:gotoRepo'>Docs</li>
     </ul>
-
 </div>
-<div style="width:40%;" data-dojo-type="sidepane/SidePane" data-dojo-props="mode:'overlay', position:'end'" data-dojo-id="rightPane">
-    <div data-dojo-type="dojox/mobile/ScrollableView" style="height:100%">
-        <ul data-dojo-type="dojox/mobile/EdgeToEdgeList" style="height:100%;">
-            <li data-dojo-type="dojox/mobile/ListItem">A</li>
-            <li data-dojo-type="dojox/mobile/ListItem">B</li>
-            <li data-dojo-type="dojox/mobile/ListItem">C</li>
-            <li data-dojo-type="dojox/mobile/ListItem">D</li>
-            <li data-dojo-type="dojox/mobile/ListItem">E</li>
-            <li data-dojo-type="dojox/mobile/ListItem">F</li>
-            <li data-dojo-type="dojox/mobile/ListItem">G</li>
-            <li data-dojo-type="dojox/mobile/ListItem">H</li>
-            <li data-dojo-type="dojox/mobile/ListItem">I</li>
-            <li data-dojo-type="dojox/mobile/ListItem">J</li>
-            <li data-dojo-type="dojox/mobile/ListItem">K</li>
-            <li data-dojo-type="dojox/mobile/ListItem">L</li>
-            <li data-dojo-type="dojox/mobile/ListItem">M</li>
-            <li data-dojo-type="dojox/mobile/ListItem">N</li>
-            <li data-dojo-type="dojox/mobile/ListItem">O</li>
-            <li data-dojo-type="dojox/mobile/ListItem">P</li>
-            <li data-dojo-type="dojox/mobile/ListItem">Q</li>
-            <li data-dojo-type="dojox/mobile/ListItem">R</li>
-            <li data-dojo-type="dojox/mobile/ListItem">S</li>
-            <li data-dojo-type="dojox/mobile/ListItem">T</li>
-            <li data-dojo-type="dojox/mobile/ListItem">U</li>
-            <li data-dojo-type="dojox/mobile/ListItem">V</li>
-            <li data-dojo-type="dojox/mobile/ListItem">W</li>
-            <li data-dojo-type="dojox/mobile/ListItem">X</li>
-            <li data-dojo-type="dojox/mobile/ListItem">Y</li>
-            <li data-dojo-type="dojox/mobile/ListItem">Z</li>
-        </ul>
+<div data-dojo-type="dojox/mobile/View">
+    <h1 data-dojo-type="dojox/mobile/Heading" id="title" data-dojo-props='label:"Dojo Commits Explorer"'>
+        <span data-dojo-type="dojox.mobile.ToolBarButton" data-dojo-props='label:"Repositories"' onclick="leftPane.show()"></span>
+    </h1>
+    <ul data-dojo-type="dojox/mobile/EdgeToEdgeStoreList" id="commitList" data-dojo-props='append:false, labelProperty: "label"'></ul>
+</div>
+<div data-dojo-type="sidepane/SidePane" data-dojo-props="mode:'overlay', position:'end'" data-dojo-id="rightPane" style="width:80%">
+    <div data-dojo-type="dojox/mobile/ScrollableView">
+        <div style="background-color: #1AA1E1; padding: 0.5em; color: white; border-bottom: solid black 2px">
+            <div style="font-weight: bold" id="comName"></div>
+            <div style="font-family: monospace" id="comMail"></div>
+            <div id="comDate"></div>
+            <div id="comMsg"></div>
+        </div>
+        <ul data-dojo-type="dojox/mobile/EdgeToEdgeStoreList" id="fileList" data-dojo-props='append:false, labelProperty: "label"'></ul>
     </div>
 </div>
 </body>
