@@ -15,9 +15,10 @@ Reveal mode: http://dmandrioli.github.io/sidepane/tests/test_SidePane-reveal.htm
 
 Dojo Commits Explorer: http://dmandrioli.github.io/sidepane/tests/test_SidePane.html
 
+<div style="border: solid black 1px">
 <img src="https://raw.github.com/dmandrioli/sidepane/master/screenshots/image001.png">
 <img src="https://raw.github.com/dmandrioli/sidepane/master/screenshots/image002.png">
-
+</div>
 <img src="https://raw.github.com/dmandrioli/sidepane/master/screenshots/image003.png">
 <img src="https://raw.github.com/dmandrioli/sidepane/master/screenshots/image004.png">
 
