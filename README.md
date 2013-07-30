@@ -14,10 +14,10 @@ Push mode: http://dmandrioli.github.io/sidepane/tests/test_SidePane-push.html
 Reveal mode: http://dmandrioli.github.io/sidepane/tests/test_SidePane-reveal.html
 
 Dojo Commits Explorer: http://dmandrioli.github.io/sidepane/tests/test_SidePane.html
-![Start](https://github.com/dmandrioli/sidepane/blob/master/screenshots/DCE1.png)
-![Left Pane](https://github.com/dmandrioli/sidepane/blob/master/screenshots/DCE2.png)
-![Main List](https://github.com/dmandrioli/sidepane/blob/master/screenshots/DCE3.png)
-![Right Pane](https://github.com/dmandrioli/sidepane/blob/master/screenshots/DCE4.png)
+![Start](https://raw.github.com/dmandrioli/sidepane/master/screenshots/DCE1.png)
+![Left Pane](https://raw.github.com/dmandrioli/sidepane/master/screenshots/DCE2.png)
+![Main List](https://raw.github.com/dmandrioli/sidepane/master/screenshots/DCE3.png)
+![Right Pane](https://raw.github.com/dmandrioli/sidepane/master/screenshots/DCE4.png)
 
 ## Installing
 
