@@ -44,18 +44,18 @@ define([
 
         // swipeClosing: Boolean
         //		Enables the swipe closing of the pane.
-        swipeClosing: false,
+        swipeClosing: true,
 
-        show: function(){
+        open: function(){
             // summary:
             //		Open the panel.
-            this._showImpl();
+            this._openImpl();
             var opts = {bubbles:true, cancelable:true, detail: this};
             on.emit(this.domNode,"showStart", opts);
 
         },
 
-        hide: function(){
+        close: function(){
             // summary:
             //		Close the panel.
             this._hideImpl();
@@ -98,11 +98,11 @@ define([
             if(this.inheritViewBg){
                 this._addClass(this.domNode, "mblBackground");
             }
-            this.hide();
+            this.close();
             this._resetInteractions();
         },
 
-        _showImpl: function(){
+        _openImpl: function(){
             if(this.domNode.style.display == "none"){
                 this.domNode.style.display = "";
             }
@@ -160,26 +160,26 @@ define([
 
                 if(this.position == "start"){
                     if(this.swipeOpening && !this._visible && (pos - this._originX) > 10){
-                        this.show();
+                        this.open();
                     }else if(this._visible){
                         if (this._originX < pos){
                             this._originX = pos;
                         }
 
                         if((this.swipeClosing && this._originX - pos) > 10){
-                            this.hide();
+                            this.close();
                             this._originX = pos;
                         }
                     }
                 }else{
                     if(this.swipeOpening && !this._visible && (this._originX - pos) > 10){
-                        this.show();
+                        this.open();
                     }else if(this._visible){
                         if (this._originX > pos){
                             this._originX = pos;
                         }
                         if((this.swipeClosing && pos - this._originX) > 10){
-                            this.hide();
+                            this.close();
                             this._originX = pos;
                         }
                     }

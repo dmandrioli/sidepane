@@ -28,7 +28,7 @@
 
         ], function(JsonRest, Memory, registry, dom, ready, notify){
             notify("done", function(responseOrError){
-                leftPane.hide();
+                leftPane.close();
                 busyItems.forEach(function(item){
                     item.set("busy", false);
                 });
@@ -55,7 +55,7 @@
             };
 
             gotoCommit = function(item){
-                rightPane.show();
+                rightPane.open();
                 var data = registry.byNode(item.target.parentNode).data;
                 dom.byId("comName").innerHTML = data.author.name;
                 dom.byId("comMail").innerHTML = data.author.email;
@@ -165,7 +165,7 @@
 </div>
 <div data-dojo-type="dojox/mobile/View">
     <h1 data-dojo-type="dojox/mobile/Heading" id="title" data-dojo-props='label:"Dojo Commits Explorer"'>
-        <span data-dojo-type="dojox.mobile.ToolBarButton" data-dojo-props='label:"Repositories"' onclick="leftPane.show()"></span>
+        <span data-dojo-type="dojox.mobile.ToolBarButton" data-dojo-props='label:"Repositories"' onclick="leftPane.open()"></span>
     </h1>
     <ul data-dojo-type="dojox/mobile/EdgeToEdgeStoreList" id="commitList" data-dojo-props='append:false, labelProperty: "label"'></ul>
 </div>
