@@ -25,15 +25,26 @@ define([
         // baseClass: String
         //		The name of the CSS class of this widget.
         baseClass: "mblSidePane",
+
         // mode: String
         //		Can be "overlay", "reveal" or "push".
         mode: "overlay",
+
         // position: String
         //		Can be "start" or "end". If set to "start", the panel is displayed on the left side in left-to-right mode.
         position: "start",
+
         // inheritViewBg: Boolean
         //		If true, the "mblBackground" CSS class is added to the panel to reuse the background of the mobile theme used.
         inheritViewBg: true,
+
+        // swipeOpening: Boolean
+        //		Enables the swipe opening of the pane.
+        swipeOpening: true,
+
+        // swipeClosing: Boolean
+        //		Enables the swipe closing of the pane.
+        swipeClosing: false,
 
         show: function(){
             // summary:
@@ -92,6 +103,9 @@ define([
         },
 
         _showImpl: function(){
+            if(this.domNode.style.display == "none"){
+                this.domNode.style.display = "";
+            }
             this._visible = true;
             this._changeClass(this.domNode, "VisiblePane", "HiddenPane");
             this._changeClass(this.domNode, "mblSidePaneVisiblePane", "mblSidePaneHiddenPane");
@@ -127,10 +141,6 @@ define([
             this._originX = event.pageX;
             this._originY = event.pageY;
 
-            if(this.domNode.style.display == "none"){
-                this.domNode.style.display = "";
-            }
-
             if(this._visible || (this.position == "start" && !this._visible && this._originX <= 10) ||
                 (this.position == "end" && !this._visible && this._originX >= win.doc.width - 10)){
                 this._makingVisible = !this._visible;
@@ -149,26 +159,26 @@ define([
                 var pos = event.pageX;
 
                 if(this.position == "start"){
-                    if(!this._visible && (pos - this._originX) > 10){
+                    if(this.swipeOpening && !this._visible && (pos - this._originX) > 10){
                         this.show();
                     }else if(this._visible){
                         if (this._originX < pos){
                             this._originX = pos;
                         }
 
-                        if((this._originX - pos) > 10){
+                        if((this.swipeClosing && this._originX - pos) > 10){
                             this.hide();
                             this._originX = pos;
                         }
                     }
                 }else{
-                    if(!this._visible && (this._originX - pos) > 10){
+                    if(this.swipeOpening && !this._visible && (this._originX - pos) > 10){
                         this.show();
                     }else if(this._visible){
                         if (this._originX > pos){
                             this._originX = pos;
                         }
-                        if((pos - this._originX) > 10){
+                        if((this.swipeClosing && pos - this._originX) > 10){
                             this.hide();
                             this._originX = pos;
                         }
@@ -193,7 +203,11 @@ define([
             if(this._pressHandle){
                 this._pressHandle.remove();
             }
-            this._pressHandle = on(this._visible ? this.domNode : win.doc, touch.press, lang.hitch(this, this._touchPress));
+            var elt = this._visible ? this.domNode : win.doc;
+
+            if(this.swipeOpening || this.swipeClosing){
+                this._pressHandle = on(elt, touch.press, lang.hitch(this, this._touchPress));
+            }
 
             this._originX = NaN;
             this._originY = NaN;
