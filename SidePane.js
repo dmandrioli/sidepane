@@ -103,9 +103,6 @@ define([
         },
 
         _openImpl: function(){
-            if(this.domNode.style.display == "none"){
-                this.domNode.style.display = "";
-            }
             this._visible = true;
             this._changeClass(this.domNode, "VisiblePane", "HiddenPane");
             this._changeClass(this.domNode, "mblSidePaneVisiblePane", "mblSidePaneHiddenPane");
@@ -140,6 +137,10 @@ define([
         _touchPress: function(event){
             this._originX = event.pageX;
             this._originY = event.pageY;
+
+            if(this.domNode.style.display == "none"){
+                this.domNode.style.display = "";
+            }
 
             if(this._visible || (this.position == "start" && !this._visible && this._originX <= 10) ||
                 (this.position == "end" && !this._visible && this._originX >= win.doc.width - 10)){
@@ -205,7 +206,7 @@ define([
             }
             var elt = this._visible ? this.domNode : win.doc;
 
-            if(this.swipeOpening || this.swipeClosing){
+            if(this.domNode.style.display == "none" || this.swipeOpening || this.swipeClosing){
                 this._pressHandle = on(elt, touch.press, lang.hitch(this, this._touchPress));
             }
 
