@@ -13,6 +13,12 @@ Push mode: http://dmandrioli.github.io/sidepane/tests/test_SidePane-push.html
 
 Reveal mode: http://dmandrioli.github.io/sidepane/tests/test_SidePane-reveal.html
 
+Dojo Commits Explorer: http://dmandrioli.github.io/sidepane/tests/test_SidePane.html
+(https://github.com/dmandrioli/sidepane/blob/master/screenshots/DCE1.png)
+(https://github.com/dmandrioli/sidepane/blob/master/screenshots/DCE2.png)
+(https://github.com/dmandrioli/sidepane/blob/master/screenshots/DCE3.png)
+(https://github.com/dmandrioli/sidepane/blob/master/screenshots/DCE4.png)
+
 ## Installing
 
 Clone this repository into a Dojo 1.9 distribution, next to 'dojo', 'dojox' and 'dijit'.
