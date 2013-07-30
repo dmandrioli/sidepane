@@ -17,6 +17,7 @@ Dojo Commits Explorer: http://dmandrioli.github.io/sidepane/tests/test_SidePane.
 
 <img src="https://raw.github.com/dmandrioli/sidepane/master/screenshots/image001.png">
 <img src="https://raw.github.com/dmandrioli/sidepane/master/screenshots/image002.png">
+<img src="https://raw.github.com/dmandrioli/sidepane/master/screenshots/image003.png">
 <img src="https://raw.github.com/dmandrioli/sidepane/master/screenshots/image004.png">
 
 ## Installing
