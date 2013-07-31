@@ -1,9 +1,11 @@
 # Dojo Mobile SidePane
 
-A container displayed on the side of the screen. It can be displayed on top of the page (mode=overlay) or can push the
-content of the page (mode=push). Compatible with Dojo 1.9.x.
+Status: Experimental
 
-To open/close the panel, swipe from the border of the screen to the center.
+A container displayed on the side of the screen. It can be displayed on top of the page (mode=overlay), can push the
+content of the page (mode=push) or reveal the content the pane (mode=reveal). Compatible with Dojo 1.9.x.
+
+To open/close the panel, swipe from the border of the screen to the center or call the open() method of the widget.
 
 ## Samples
 
@@ -39,7 +41,7 @@ Clone this repository into a Dojo 1.9 distribution, next to 'dojo', 'dojox' and 
 * In push and reveal mode, the size of the panel can't be set in HTML. It is 15em by default. To change this value,
 change @PANEL_WIDTH in SidePane.less and regenerate the stylesheet.
 
-* Blackberry Chrome Mobile on Android have built-in left/right swipe gesture. On these platforms, swipe opening is not really usable.
+* Blackberry and Chrome Mobile on Android have built-in left/right swipe gesture. On these platforms, swipe opening is not really usable.
 
 ## Known bugs
 
