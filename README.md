@@ -17,10 +17,7 @@ Reveal mode: http://dmandrioli.github.io/sidepane/tests/test_SidePane-reveal.htm
 
 Dojo Commits Explorer: http://dmandrioli.github.io/sidepane/tests/test_SidePane.html
 
-<img src="https://raw.github.com/dmandrioli/sidepane/master/screenshots/image001.png">
-<img src="https://raw.github.com/dmandrioli/sidepane/master/screenshots/image002.png">
-<img src="https://raw.github.com/dmandrioli/sidepane/master/screenshots/image003.png">
-<img src="https://raw.github.com/dmandrioli/sidepane/master/screenshots/image004.png">
+<img src="https://raw.github.com/dmandrioli/sidepane/master/screenshots/all.jpg">
 
 ## Installing
 
