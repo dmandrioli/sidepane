@@ -90,7 +90,6 @@
                     target: baseURL.replace("REPO", event.target.innerHTML.toLowerCase())
                 });
                 var commitList = registry.byId("commitList");
-                //commitList.set("itemMap", {onClick: "onClick"});
 
                 store.query().then(function(items){
                     items.forEach(function(it){
