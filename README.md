@@ -30,7 +30,6 @@ Clone this repository into a Dojo 1.9 distribution, next to 'dojo', 'dojox' and 
 * Blackberry 10
 * Windows Phone 8
 * Chrome Desktop
-* Firefox Desktop
 * IE10 Desktop
 
 ## Limitations
