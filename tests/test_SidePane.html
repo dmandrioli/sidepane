@@ -81,13 +81,13 @@
             };
 
             gotoRepo = function(event){
-                registry.byId("title").set("label", event.target.innerText + " Repository");
+                registry.byId("title").set("label", event.target.innerHTML + " Repository");
                 var listItem = registry.byNode(event.target.parentElement);
                 listItem.set("busy", true);
                 busyItems.push(listItem);
 
                 var store = new JsonRest({
-                    target: baseURL.replace("REPO", event.target.innerText.toLowerCase())
+                    target: baseURL.replace("REPO", event.target.innerHTML.toLowerCase())
                 });
                 var commitList = registry.byId("commitList");
                 //commitList.set("itemMap", {onClick: "onClick"});
@@ -156,7 +156,7 @@
      style="background-color: #1AA1E1;">
     <h1 data-dojo-type="dojox/mobile/Heading" data-dojo-props='label:"Choose a GitHub Repository"' style="font-size: 0.9em"></h1>
     <ul data-dojo-type="dojox/mobile/EdgeToEdgeList" style="height: 100%;">
-        <li data-dojo-type="dojox/mobile/ListItem" data-dojo-props='icon:"mblDomButtonArrow", noArrow:true, moveTo:"#", onClick:gotoRepo'>Dojo</li>
+        <li data-dojo-type="dojox/mobile/ListItem" data-dojo-props='icon:"mblDomButtonArrow", noArrow:true, moveTo:"#", onClick:gotoRepo' value="Dojo">Dojo</li>
         <li data-dojo-type="dojox/mobile/ListItem" data-dojo-props='icon:"mblDomButtonArrow", noArrow:true, moveTo:"#", onClick:gotoRepo'>Dijit</li>
         <li data-dojo-type="dojox/mobile/ListItem" data-dojo-props='icon:"mblDomButtonArrow", noArrow:true, moveTo:"#", onClick:gotoRepo'>Dojox</li>
         <li data-dojo-type="dojox/mobile/ListItem" data-dojo-props='icon:"mblDomButtonArrow", noArrow:true, moveTo:"#", onClick:gotoRepo'>Demos</li>
