@@ -85,6 +85,16 @@ define([
             return this._visible ? "open" : "close";
         },
 
+        _setSwipeClosingAttr: function(value){
+            this.swipeClosing = value;
+            this._resetInteractions();
+        },
+
+        _setSwipeOpeningAttr: function(value){
+            this.swipeOpening = value;
+            this._resetInteractions();
+        },
+
         postCreate: function(){
             this.inherited(arguments);
             this.domNode.style.display = "none";
