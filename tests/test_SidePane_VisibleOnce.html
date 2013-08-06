@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8"/>
+    <meta name="viewport"
+          content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no"/>
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+    <title>Visible Once</title>
+    <link rel="stylesheet" href="../css/SidePane.css">
+    <link href="../../dojox/mobile/themes/common/domButtons/DomButtonBlackCircleCross.css" rel="stylesheet"/>
+    <!-- Force iPhone theme -->
+    <script type="text/javascript" src="../../dojox/mobile/deviceTheme.js" data-dojo-config="mblUserAgent: 'iPhone'"></script>
+    <script type="text/javascript" src="../../dojo/dojo.js"
+            data-dojo-config="async: true, parseOnLoad: true"></script>
+
+    <script type="text/javascript">
+        require([
+            "dijit/registry",
+            "dojo/dom",
+            "dojo/ready",
+            "dojo/cookie",
+            "dojox/mobile/iconUtils",
+            "dojo/touch",
+            "dojo/on",
+            "dojo/dom-class",
+            "dojox/mobile",
+            "dojox/mobile/parser",
+            "sidepane/SidePane",
+            "dojox/mobile/ToolBarButton"
+        ], function(registry, dom, ready, cookie, iconUtils, touch, on, domClass){
+
+            pressX = NaN;
+            pressHandle = releaseHandle = moveHandle = null;
+            ready(function(){
+
+                iconUtils.createDomButton(closeButton);
+
+                var cookieValue = cookie("visibleOnceCookie");
+                if (cookieValue != "flag"){
+                    rightPane.open();
+                    cookie("visibleOnceCookie", "flag");
+                }
+
+                var mq = window.matchMedia("(max-width: 600px)");
+                mq.addListener(mediaQueryTrigger);
+                mediaQueryTrigger(mq);
+            });
+
+            mediaQueryTrigger = function(mq){
+                if (mq.matches) {
+                    // Default swipe closing behaviour
+                    rightPane.set("swipeClosing", true);
+                    domClass.remove(rightPane.domNode, "rightPaneFullWidth");
+                    if(pressHandle){
+                        pressHandle.remove();
+                        releaseHandle.remove();
+                        moveHandle.remove();
+                        pressHandle = releaseHandle = moveHandle = null;
+                    }
+                }
+                else {
+                    // Override swipe closing behaviour
+                    rightPane.set("swipeClosing", false);
+                    pressHandle = on(rightPane.domNode, touch.press, function(event){ pressX = event.pageX;});
+                    releaseHandle = on(rightPane.domNode, touch.release, function(event){ pressX = NaN;});
+                    moveHandle = on(rightPane.domNode, touch.move, touchMove);
+                }
+            };
+            touchMove = function(event){
+                if(event.pageX - pressX > 10){
+                    if(domClass.contains(rightPane.domNode, "rightPaneFullWidth")){
+                        domClass.remove(rightPane.domNode, "rightPaneFullWidth");
+                    }else{
+                        rightPane.close();
+                    }
+                    pressX = NaN;
+                }else if(event.pageX - pressX < -10){
+                    domClass.add(rightPane.domNode, "rightPaneFullWidth");
+                    pressX = NaN;
+                }
+            };
+
+            clearCookies = function(event){
+                cookie("visibleOnceCookie", "none");
+                dom.byId("content").innerHTML = "Please reload the page...";
+            }
+        });
+
+    </script>
+    <style>
+        html, body, div[data-dojo-type = "dojox/mobile/View"] {
+            height: 100%;
+        }
+        ul[data-dojo-type = "dojox/mobile/EdgeToEdgeList"] {
+            background-color: black;
+        }
+        li[data-dojo-type = "dojox/mobile/ListItem"] {
+            color: white;
+        }
+        div[data-dojo-type = "dojox/mobile/ScrollableView"] {
+            background-color: white;
+        }
+
+        @media screen and (max-width: 600px) {
+            div[data-dojo-id = "rightPane"] {
+                width:100%;
+                border: none;
+                box-shadow: none;
+            }
+        }
+
+        .rightPaneFullWidth{
+            width: 100%;
+            border: none;
+            box-shadow: none;
+        }
+
+        .mblSidePaneEndOverlayVisiblePane {
+            box-shadow: 0px 0px 3px 3px #444444;
+            background-color: white;
+        }
+
+        hr {
+            border:0;
+            color:black;
+            background:black;
+            height:2px;
+        }
+
+            /* iPhone theme customization */
+        .mblHeading {
+            z-index: 0;
+            background-image: none;
+            background-color: #1AA1E1;
+            border: none;
+            box-shadow: inset 0 5px 5px -5px #444444;
+        }
+
+        .mblColorDefault {
+            background-color: black;
+            background-image: none;
+        }
+
+        #closeButton {
+            float:right;
+            right: -5px;
+            top: -5px;
+        }
+
+        * {
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+
+    </style>
+</head>
+<body style="visibility:hidden;">
+<div data-dojo-type="dojox/mobile/View">
+    <h1 data-dojo-type="dojox/mobile/Heading" id="title" data-dojo-props='label:"My Mobile App"'>
+        <span data-dojo-type="dojox.mobile.ToolBarButton" data-dojo-props='label:"Clear cookie"' onclick="clearCookies()"></span>
+    </h1>
+    <div style="background-color: white; width: 100%; height: 100%" id="content"></div>
+</div>
+<div data-dojo-type="sidepane/SidePane" data-dojo-props="swipeClosing: false, swipeOpening: true, mode:'overlay', position:'end'" data-dojo-id="rightPane">
+    <div style="background-color: #1AA1E1; padding: 0.5em; color: white; border-bottom: solid black 2px; height: 44px">
+        <span style="font-size: 2em; font-weight: bold">Help</span>
+        <div class="mblDomButtonBlackCircleCross" id="closeButton" onclick="rightPane.close()"></div>
+    </div>
+    <ul>
+        <li>This panel is visible only the first time you open the application.</li>
+        <li>You can expand it using a left swipe gesture.</li>
+        <li>To display this panel again, clear cookies or use the top-left button and reload the page.</li>
+    </ul>
+</div>
+</body>
+</html>
