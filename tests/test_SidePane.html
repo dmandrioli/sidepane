@@ -1,187 +1,221 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta http-equiv="Content-type" content="text/html; charset=utf-8"/>
-    <meta name="viewport"
-          content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no"/>
-    <meta name="apple-mobile-web-app-capable" content="yes"/>
-    <title>Dojo Commits Explorer</title>
-    <link rel="stylesheet" href="../css/SidePane.css">
-    <link href="../../dojox/mobile/themes/common/domButtons/DomButtonBlackCircleCross.css" rel="stylesheet"/>
-    <!-- Force iPhone theme -->
-    <script type="text/javascript" src="../../dojox/mobile/deviceTheme.js" data-dojo-config="mblUserAgent: 'iPhone'"></script>
-    <script type="text/javascript" src="../../dojo/dojo.js"
-            data-dojo-config="async: true, parseOnLoad: true"></script>
+<meta http-equiv="Content-type" content="text/html; charset=utf-8"/>
+<meta name="viewport"
+      content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no"/>
+<meta name="apple-mobile-web-app-capable" content="yes"/>
+<title>Dojo Commits Explorer</title>
+<link rel="stylesheet" href="../css/SidePane.css">
+<link href="../../dojox/mobile/themes/common/domButtons/DomButtonBlackCircleCross.css" rel="stylesheet"/>
+<!-- Force iPhone theme -->
+<script type="text/javascript" src="../../dojox/mobile/deviceTheme.js" data-dojo-config="mblUserAgent: 'iPhone'"></script>
+<script type="text/javascript" src="../../dojo/dojo.js"
+        data-dojo-config="async: true, parseOnLoad: true"></script>
 
-    <script type="text/javascript">
-        require([
-            "dojo/store/JsonRest",
-            "dojo/store/Memory",
-            "dijit/registry",
-            "dojo/dom",
-            "dojo/ready",
-            "dojo/request/notify",
-            "dojox/mobile/iconUtils",
-            "dojo/touch",
-            "dojo/on",
-            "dojo/dom-class",
-            "dojox/mobile",
-            "dojox/mobile/parser",
-            "dojox/mobile/ScrollableView",
-            "sidepane/SidePane",
-            "dojox/mobile/EdgeToEdgeStoreList"
+<script type="text/javascript">
+    require([
+        "dojo/store/JsonRest",
+        "dojo/store/Memory",
+        "dijit/registry",
+        "dojo/dom",
+        "dojo/ready",
+        "dojo/request/notify",
+        "dojox/mobile/iconUtils",
+        "dojo/touch",
+        "dojo/on",
+        "dojo/dom-class",
+        "dojox/mobile",
+        "dojox/mobile/parser",
+        "dojox/mobile/ScrollableView",
+        "sidepane/SidePane",
+        "dojox/mobile/EdgeToEdgeStoreList"
 
 
-        ], function(JsonRest, Memory, registry, dom, ready, notify, iconUtils, touch, on, domClass){
-            notify("done", function(responseOrError){
-                leftPane.close();
-                busyItems.forEach(function(item){
-                    item.set("busy", false);
-                });
-                busyItems = [];
-
-                if(responseOrError instanceof Error){
-                    alert(responseOrError.response.text);
-                }
+    ], function(JsonRest, Memory, registry, dom, ready, notify, iconUtils, touch, on, domClass){
+        notify("done", function(responseOrError){
+            leftPane.close();
+            busyItems.forEach(function(item){
+                item.set("busy", false);
             });
-
-            ready(function(){
-                var commitList = registry.byId("commitList");
-                var data = [];
-                // Fake data to fill the view background
-                for(var i=0; i<50; i++){
-                    data.push({label:''});
-                }
-                commitList.setStore(new Memory({data:data}));
-                iconUtils.createDomButton(closeButton);
-
-            });
-
-            gotoFile = function(item){
-                var data = registry.byNode(item.target.parentNode).data;
-                window.open(data.blob_url);
-            };
-
-            gotoCommit = function(item){
-                rightPane.open();
-                var data = registry.byNode(item.target.parentNode).data;
-                dom.byId("comName").innerHTML = data.author.name;
-                dom.byId("comMail").innerHTML = data.author.email;
-                dom.byId("comDate").innerHTML = data.author.date;
-                dom.byId("comMsg").innerHTML = data.message;
-
-                // Get commit file list
-                var store = new JsonRest({
-                    target: data.url.replace("/git/", "/")
-                });
-                store.query().then(function(obj){
-                    obj.files.forEach(function(it){
-                        it.onClick = gotoFile;
-                        it.label = it.filename;
-                        it.data = it;
-                        it.moveTo = "#";
-                    });
-
-                    var fileList = registry.byId("fileList");
-                    fileList.setStore(new Memory({data:obj.files}));
-                });
-
-            };
-
-            gotoRepo = function(event){
-                registry.byId("title").set("label", event.target.innerHTML + " Repository");
-                var listItem = registry.byNode(event.target.parentElement);
-                listItem.set("busy", true);
-                busyItems.push(listItem);
-
-                var store = new JsonRest({
-                    target: baseURL.replace("REPO", event.target.innerHTML.toLowerCase())
-                });
-                var commitList = registry.byId("commitList");
-
-                store.query().then(function(items){
-                    items.forEach(function(it){
-                        it.onClick = gotoCommit;
-                        it.label = it.commit.author.name + ": " + it.commit.message;
-                        it.data = it.commit;
-                        it.moveTo = "#";});
-
-                    commitList.setStore(new Memory({data:items}));
-                });
-            };
-
-            // This sample uses http://developer.github.com/v3/
-            baseURL = "https://api.github.com/repos/dojo/REPO/commits";
             busyItems = [];
+
+            if(responseOrError instanceof Error){
+                alert(responseOrError.response.text);
+            }
         });
 
-    </script>
-    <style>
-        html, body, div[data-dojo-type = "dojox/mobile/View"] {
-            height: 100%;
-        }
-        ul[data-dojo-type = "dojox/mobile/EdgeToEdgeList"] {
-            background-color: black;
-        }
-        li[data-dojo-type = "dojox/mobile/ListItem"] {
-            color: white;
-        }
-        div[data-dojo-type = "dojox/mobile/ScrollableView"] {
-            background-color: white;
-        }
-
-        @media screen and (max-width: 600px) {
-            div[data-dojo-id = "rightPane"] {
-                width:100%;
-                border: none;
-                box-shadow: none;
+        pressX = NaN;
+        pressHandle = releaseHandle = moveHandle = null;
+        ready(function(){
+            var commitList = registry.byId("commitList");
+            var data = [];
+            // Fake data to fill the view background
+            for(var i=0; i<50; i++){
+                data.push({label:''});
             }
-        }
+            commitList.setStore(new Memory({data:data}));
+            iconUtils.createDomButton(closeButton);
 
-        .mblSidePaneEndOverlayVisiblePane {
-            box-shadow: 0px 0px 3px 3px #444444;
-            background-color: white;
-            -moz-transition: all 0.4s ease-in-out;
-            -webkit-transition: all 0.4s ease-in-out;
-            -ms-transition: all 0.4s ease-in-out;
-            transition: all 0.4s ease-in-out;
-        }
+            var mq = window.matchMedia("(max-width: 600px)");
+            mq.addListener(mediaQueryTrigger);
+            mediaQueryTrigger(mq);
+        });
 
-        hr {
-            border:0;
-            color:black;
-            background:black;
-            height:2px;
-        }
+        mediaQueryTrigger = function(mq){
+            if (mq.matches) {
+                // Default swipe closing behaviour
+                rightPane.set("swipeClosing", true);
+                domClass.remove(rightPane.domNode, "rightPaneFullWidth");
+                if(pressHandle){
+                    pressHandle.remove();
+                    releaseHandle.remove();
+                    moveHandle.remove();
+                    pressHandle = releaseHandle = moveHandle = null;
+                }
+            }
+            else {
+                // Override swipe closing behaviour
+                rightPane.set("swipeClosing", false);
+                pressHandle = on(rightPane.domNode, touch.press, function(event){ pressX = event.pageX;});
+                releaseHandle = on(rightPane.domNode, touch.release, function(event){ pressX = NaN;});
+                moveHandle = on(rightPane.domNode, touch.move, touchMove);
+            }
+        };
+        touchMove = function(event){
+            if(event.pageX - pressX > 10){
+                if(domClass.contains(rightPane.domNode, "rightPaneFullWidth")){
+                    domClass.remove(rightPane.domNode, "rightPaneFullWidth");
+                }else{
+                    rightPane.close();
+                }
+                pressX = NaN;
+            }else if(event.pageX - pressX < -10){
+                domClass.add(rightPane.domNode, "rightPaneFullWidth");
+                pressX = NaN;
+            }
+        };
 
-            /* iPhone theme customization */
-        .mblHeading {
-            z-index: 0;
-            background-image: none;
-            background-color: #1AA1E1;
+        gotoFile = function(item){
+            var data = registry.byNode(item.target.parentNode).data;
+            window.open(data.blob_url);
+        };
+
+        gotoCommit = function(item){
+            rightPane.open();
+            var data = registry.byNode(item.target.parentNode).data;
+            dom.byId("comName").innerHTML = data.author.name;
+            dom.byId("comMail").innerHTML = data.author.email;
+            dom.byId("comDate").innerHTML = data.author.date;
+            dom.byId("comMsg").innerHTML = data.message;
+
+            // Get commit file list
+            var store = new JsonRest({
+                target: data.url.replace("/git/", "/")
+            });
+            store.query().then(function(obj){
+                obj.files.forEach(function(it){
+                    it.onClick = gotoFile;
+                    it.label = it.filename;
+                    it.data = it;
+                    it.moveTo = "#";
+                });
+
+                var fileList = registry.byId("fileList");
+                fileList.setStore(new Memory({data:obj.files}));
+            });
+
+        };
+
+        gotoRepo = function(event){
+            registry.byId("title").set("label", event.target.innerHTML + " Repository");
+            var listItem = registry.byNode(event.target.parentElement);
+            listItem.set("busy", true);
+            busyItems.push(listItem);
+
+            var store = new JsonRest({
+                target: baseURL.replace("REPO", event.target.innerHTML.toLowerCase())
+            });
+            var commitList = registry.byId("commitList");
+
+            store.query().then(function(items){
+                items.forEach(function(it){
+                    it.onClick = gotoCommit;
+                    it.label = it.commit.author.name + ": " + it.commit.message;
+                    it.data = it.commit;
+                    it.moveTo = "#";});
+
+                commitList.setStore(new Memory({data:items}));
+            });
+        };
+
+        // This sample uses http://developer.github.com/v3/
+        baseURL = "https://api.github.com/repos/dojo/REPO/commits";
+        busyItems = [];
+    });
+
+</script>
+<style>
+    html, body, div[data-dojo-type = "dojox/mobile/View"] {
+        height: 100%;
+    }
+    ul[data-dojo-type = "dojox/mobile/EdgeToEdgeList"] {
+        background-color: black;
+    }
+    li[data-dojo-type = "dojox/mobile/ListItem"] {
+        color: white;
+    }
+    div[data-dojo-type = "dojox/mobile/ScrollableView"] {
+        background-color: white;
+    }
+
+    @media screen and (max-width: 600px) {
+        div[data-dojo-id = "rightPane"] {
+            width:100%;
             border: none;
-            box-shadow: inset 0 5px 5px -5px #444444;
+            box-shadow: none;
         }
+    }
 
-        .mblColorDefault {
-            background-color: black;
-            background-image: none;
-        }
+    .rightPaneFullWidth{
+        width: 100%;
+        border: none;
+        box-shadow: none;
+    }
 
-        #closeButton {
-            float:right;
-            right: -5px;
-            top: -5px;
-        }
+    .mblSidePaneEndOverlayVisiblePane {
+        box-shadow: 0px 0px 3px 3px #444444;
+        background-color: white;
+    }
 
-        * {
-            -webkit-user-select: none;
-            -moz-user-select: none;
-            -ms-user-select: none;
-            user-select: none;
-        }
+    hr {
+        border:0;
+        color:black;
+        background:black;
+        height:2px;
+    }
 
-    </style>
+        /* iPhone theme customization */
+    .mblHeading {
+        z-index: 0;
+        background-image: none;
+        background-color: #1AA1E1;
+        border: none;
+        box-shadow: inset 0 5px 5px -5px #444444;
+    }
+
+    .mblColorDefault {
+        background-color: black;
+        background-image: none;
+    }
+
+    #closeButton {
+        float:right;
+        right: -5px;
+        top: -5px;
+    }
+
+</style>
 </head>
 <body style="visibility:hidden;">
 <div data-dojo-type="sidepane/SidePane" data-dojo-props="mode:'reveal', position:'start'" data-dojo-id="leftPane"
@@ -201,7 +235,7 @@
     </h1>
     <ul data-dojo-type="dojox/mobile/EdgeToEdgeStoreList" id="commitList" data-dojo-props='append:false, labelProperty: "label"'></ul>
 </div>
-<div data-dojo-type="sidepane/SidePane" data-dojo-props="swipeClosing: true, swipeOpening: false, mode:'overlay', position:'end'" data-dojo-id="rightPane">
+<div data-dojo-type="sidepane/SidePane" data-dojo-props="swipeClosing: false, swipeOpening: false, mode:'overlay', position:'end'" data-dojo-id="rightPane">
     <div data-dojo-type="dojox/mobile/ScrollableView">
         <div style="background-color: #1AA1E1; padding: 0.5em; color: white; border-bottom: solid black 2px">
             <div class="mblDomButtonBlackCircleCross" id="closeButton" onclick="rightPane.close()"></div>
