@@ -57,7 +57,44 @@
             commitList.setStore(new Memory({data:data}));
             iconUtils.createDomButton(closeButton);
 
+            var mq = window.matchMedia("(max-width: 600px)");
+            mq.addListener(mediaQueryTrigger);
+            mediaQueryTrigger(mq);
         });
+
+        mediaQueryTrigger = function(mq){
+            if (mq.matches) {
+                // Default swipe closing behaviour
+                rightPane.set("swipeClosing", true);
+                domClass.remove(rightPane.domNode, "rightPaneFullWidth");
+                if(pressHandle){
+                    pressHandle.remove();
+                    releaseHandle.remove();
+                    moveHandle.remove();
+                    pressHandle = releaseHandle = moveHandle = null;
+                }
+            }
+            else {
+                // Override swipe closing behaviour
+                rightPane.set("swipeClosing", false);
+                pressHandle = on(rightPane.domNode, touch.press, function(event){ pressX = event.pageX;});
+                releaseHandle = on(rightPane.domNode, touch.release, function(event){ pressX = NaN;});
+                moveHandle = on(rightPane.domNode, touch.move, touchMove);
+            }
+        };
+        touchMove = function(event){
+            if(event.pageX - pressX > 10){
+                if(domClass.contains(rightPane.domNode, "rightPaneFullWidth")){
+                    domClass.remove(rightPane.domNode, "rightPaneFullWidth");
+                }else{
+                    rightPane.close();
+                }
+                pressX = NaN;
+            }else if(event.pageX - pressX < -10){
+                domClass.add(rightPane.domNode, "rightPaneFullWidth");
+                pressX = NaN;
+            }
+        };
 
         gotoFile = function(item){
             var data = registry.byNode(item.target.parentNode).data;
@@ -140,13 +177,15 @@
         }
     }
 
+    .rightPaneFullWidth{
+        width: 100%;
+        border: none;
+        box-shadow: none;
+    }
+
     .mblSidePaneEndOverlayVisiblePane {
         box-shadow: 0px 0px 3px 3px #444444;
         background-color: white;
-        -moz-transition: all 0.4s ease-in-out;
-        -webkit-transition: all 0.4s ease-in-out;
-        -ms-transition: all 0.4s ease-in-out;
-        transition: all 0.4s ease-in-out;
     }
 
     hr {
@@ -176,13 +215,6 @@
         top: -5px;
     }
 
-    * {
-        -webkit-user-select: none;
-        -moz-user-select: none;
-        -ms-user-select: none;
-        user-select: none;
-    }
-
 </style>
 </head>
 <body style="visibility:hidden;">
@@ -203,7 +235,7 @@
     </h1>
     <ul data-dojo-type="dojox/mobile/EdgeToEdgeStoreList" id="commitList" data-dojo-props='append:false, labelProperty: "label"'></ul>
 </div>
-<div data-dojo-type="sidepane/SidePane" data-dojo-props="swipeClosing: true, swipeOpening: false, mode:'overlay', position:'end'" data-dojo-id="rightPane">
+<div data-dojo-type="sidepane/SidePane" data-dojo-props="swipeClosing: false, swipeOpening: false, mode:'overlay', position:'end'" data-dojo-id="rightPane">
     <div data-dojo-type="dojox/mobile/ScrollableView">
         <div style="background-color: #1AA1E1; padding: 0.5em; color: white; border-bottom: solid black 2px">
             <div class="mblDomButtonBlackCircleCross" id="closeButton" onclick="rightPane.close()"></div>
