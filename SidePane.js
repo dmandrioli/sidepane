@@ -49,7 +49,15 @@ define([
         open: function(){
             // summary:
             //		Open the panel.
-            this._openImpl();
+
+            if(this.domNode.style.display == "none"){
+                // The dom node has to be visible to be animated. If it's not visible, postpone the opening to enable animation.
+                this.domNode.style.display = "";
+                setTimeout(lang.hitch(this, this._openImpl, 0));
+            }else{
+                this._openImpl();
+            }
+
             var opts = {bubbles:true, cancelable:true, detail: this};
             on.emit(this.domNode,"showStart", opts);
 
