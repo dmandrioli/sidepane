@@ -15,7 +15,9 @@ Push mode: http://dmandrioli.github.io/sidepane/tests/test_SidePane-push.html
 
 Reveal mode: http://dmandrioli.github.io/sidepane/tests/test_SidePane-reveal.html
 
-Dojo Commits Explorer: http://dmandrioli.github.io/sidepane/tests/test_SidePane.html
+A sidePane visible only on the first load (cookie based) : http://dmandrioli.github.io/sidepane/tests/test_SidePane-reveal.html
+
+Dojo Commits Explorer: http://dmandrioli.github.io/sidepane/tests/test_SidePane-VisibleOnce.html
 
 <img src="https://raw.github.com/dmandrioli/sidepane/master/screenshots/all.jpg">
 
