@@ -9,9 +9,8 @@
 <link rel="stylesheet" href="../css/SidePane.css">
 <link href="../../dojox/mobile/themes/common/domButtons/DomButtonBlackCircleCross.css" rel="stylesheet"/>
 <!-- Force iPhone theme -->
-<script type="text/javascript" src="../../dojox/mobile/deviceTheme.js" data-dojo-config="mblUserAgent: 'iPhone'"></script>
-<script type="text/javascript" src="../../dojo/dojo.js"
-        data-dojo-config="async: true, parseOnLoad: true"></script>
+<script src="//ajax.googleapis.com/ajax/libs/dojo/1.9.1/dojox/mobile/deviceTheme.js" data-dojo-config="mblUserAgent: 'iPhone'"></script>
+<script src="//ajax.googleapis.com/ajax/libs/dojo/1.9.1/dojo/dojo.js" data-dojo-config="async: true, parseOnLoad: true"></script>
 
 <script type="text/javascript">
     require([
@@ -162,8 +161,8 @@
     ul[data-dojo-type = "dojox/mobile/EdgeToEdgeList"] {
         background-color: black;
     }
-    li[data-dojo-type = "dojox/mobile/ListItem"] {
-        color: white;
+    li[data-dojo-type = "dojox.mobile.ListItem"] {
+        color: red;
     }
     div[data-dojo-type = "dojox/mobile/ScrollableView"] {
         background-color: white;
@@ -222,7 +221,7 @@
      style="background-color: #1AA1E1;">
     <h1 data-dojo-type="dojox/mobile/Heading" data-dojo-props='label:"Choose a GitHub Repository"' style="font-size: 0.9em"></h1>
     <ul data-dojo-type="dojox/mobile/EdgeToEdgeList" style="height: 100%;">
-        <li data-dojo-type="dojox/mobile/ListItem" data-dojo-props='icon:"mblDomButtonArrow", noArrow:true, moveTo:"#", onClick:gotoRepo'>Dojo</li>
+        <li data-dojo-type="dojox.mobile.ListItem" data-dojo-props='icon:"mblDomButtonArrow", noArrow:true, moveTo:"#", onClick:gotoRepo'>Dojo</li>
         <li data-dojo-type="dojox/mobile/ListItem" data-dojo-props='icon:"mblDomButtonArrow", noArrow:true, moveTo:"#", onClick:gotoRepo'>Dijit</li>
         <li data-dojo-type="dojox/mobile/ListItem" data-dojo-props='icon:"mblDomButtonArrow", noArrow:true, moveTo:"#", onClick:gotoRepo'>Dojox</li>
         <li data-dojo-type="dojox/mobile/ListItem" data-dojo-props='icon:"mblDomButtonArrow", noArrow:true, moveTo:"#", onClick:gotoRepo'>Demos</li>
