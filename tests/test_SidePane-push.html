@@ -7,9 +7,11 @@
     <meta name="apple-mobile-web-app-capable" content="yes"/>
     <title>My Mobile App</title>
     <link rel="stylesheet" href="../css/SidePane.css">
-    <script type="text/javascript" src="../../dojox/mobile/deviceTheme.js" data-dojo-config="mblThemeFiles: ['base', 'Button']"></script>
-    <script type="text/javascript" src="../../dojo/dojo.js"
-            data-dojo-config="async: true, parseOnLoad: true"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/dojo/1.9.1/dojox/mobile/deviceTheme.js" data-dojo-config="mblThemeFiles: ['base', 'Button']"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/dojo/1.9.1/dojo/dojo.js" data-dojo-config="async: true, parseOnLoad: true, packages: [{
+                        name: 'sidepane',
+                        location: 'http://dmandrioli.github.io/sidepane/'
+                    }]"></script>
 
     <script type="text/javascript">
         require([
