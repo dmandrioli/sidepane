@@ -10,10 +10,13 @@
 <link href="//ajax.googleapis.com/ajax/libs/dojo/1.9.1/dojox/mobile/themes/common/domButtons/DomButtonBlackCircleCross.css" rel="stylesheet"/>
 <!-- Force iPhone theme -->
 <script src="//ajax.googleapis.com/ajax/libs/dojo/1.9.1/dojox/mobile/deviceTheme.js" data-dojo-config="mblUserAgent: 'iPhone'"></script>
-<script src="//ajax.googleapis.com/ajax/libs/dojo/1.9.1/dojo/dojo.js" data-dojo-config="async: true, parseOnLoad: true, packages: [{
+<!--<script src="//ajax.googleapis.com/ajax/libs/dojo/1.9.1/dojo/dojo.js" data-dojo-config="async: true, parseOnLoad: true, packages: [{-->
+                        <!--name: 'sidepane',-->
+                        <!--location: location.pathname.replace(/\/[^/]+$/, '') + '/'-->
+                    <!--}]"></script>-->
+<script src="//ajax.googleapis.com/ajax/libs/dojo/1.9.1/dojo/dojo.js" data-dojo-config="async: true, parseOnLoad: false, packages: [{
                         name: 'sidepane',
-                        location: location.pathname.replace(/\/[^/]+$/, '') + '/'
-                    }]"></script>
+                        location: '//dmandrioli.github.io/sidepane/'}]"></script>
 
 <script type="text/javascript">
     require([
@@ -33,7 +36,7 @@
         "dojox/mobile/EdgeToEdgeStoreList"
 
 
-    ], function(JsonRest, Memory, registry, dom, ready, notify, iconUtils, touch, on, domClass){
+    ], function(JsonRest, Memory, registry, dom, ready, notify, iconUtils, touch, on, domClass, mobile, parser){
         notify("done", function(responseOrError){
             leftPane.close();
             busyItems.forEach(function(item){
@@ -49,6 +52,7 @@
         pressX = NaN;
         pressHandle = releaseHandle = moveHandle = null;
         ready(function(){
+            parser.parse();
             var commitList = registry.byId("commitList");
             var data = [];
             // Fake data to fill the view background
