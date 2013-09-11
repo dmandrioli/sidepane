@@ -12,7 +12,7 @@
 <script src="//ajax.googleapis.com/ajax/libs/dojo/1.9.1/dojox/mobile/deviceTheme.js" data-dojo-config="mblUserAgent: 'iPhone'"></script>
 <script src="//ajax.googleapis.com/ajax/libs/dojo/1.9.1/dojo/dojo.js" data-dojo-config="async: true, parseOnLoad: true, packages: [{
                         name: 'sidepane',
-                        location: location.pathname.replace(/\/[^/]+$/, '') + '/'
+                        location: 'http://dmandrioli.github.io/sidepane/'
                     }]"></script>
 
 <script type="text/javascript">
@@ -28,11 +28,11 @@
         "dojo/on",
         "dojo/dom-class",
         "dojox/mobile",
-        "dojox/mobile/parser",
+        "dojo/parser",
         "dojox/mobile/ScrollableView",
         "dojox/mobile/EdgeToEdgeStoreList"
 
-    ], function(JsonRest, Memory, registry, dom, ready, notify, iconUtils, touch, on, domClass, mobile, parser){
+    ], function(JsonRest, Memory, registry, dom, ready, notify, iconUtils, touch, on, domClass){
         notify("done", function(responseOrError){
             leftPane.close();
             busyItems.forEach(function(item){
@@ -48,7 +48,6 @@
         pressX = NaN;
         pressHandle = releaseHandle = moveHandle = null;
         ready(function(){
-            parser.parse();
             var commitList = registry.byId("commitList");
             var data = [];
             // Fake data to fill the view background
@@ -196,6 +195,9 @@
         height:2px;
     }
 
+    #leftMenu li {
+        color: white;
+    }
         /* iPhone theme customization */
     .mblHeading {
         z-index: 0;
@@ -222,7 +224,7 @@
 <div data-dojo-type="sidepane/SidePane" data-dojo-props="mode:'reveal', position:'start'" data-dojo-id="leftPane"
      style="background-color: #1AA1E1;">
     <h1 data-dojo-type="dojox/mobile/Heading" data-dojo-props='label:"Choose a GitHub Repository"' style="font-size: 0.9em"></h1>
-    <ul data-dojo-type="dojox/mobile/EdgeToEdgeList" style="height: 100%;">
+    <ul data-dojo-type="dojox/mobile/EdgeToEdgeList" style="height: 100%;" id="leftMenu">
         <li data-dojo-type="dojox.mobile.ListItem" data-dojo-props='icon:"mblDomButtonArrow", noArrow:true, moveTo:"#", onClick:gotoRepo'>Dojo</li>
         <li data-dojo-type="dojox/mobile/ListItem" data-dojo-props='icon:"mblDomButtonArrow", noArrow:true, moveTo:"#", onClick:gotoRepo'>Dijit</li>
         <li data-dojo-type="dojox/mobile/ListItem" data-dojo-props='icon:"mblDomButtonArrow", noArrow:true, moveTo:"#", onClick:gotoRepo'>Dojox</li>
