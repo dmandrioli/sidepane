@@ -36,7 +36,7 @@ Clone this repository into a Dojo 1.9 distribution, next to 'dojo', 'dojox' and 
 
 ## Limitations
 
-* In push and reveal mode, the size of the panel can't be set in HTML. It is 15em by default. To change this value,
+* The size of the panel can't be set in HTML. It is 15em by default. To change this value,
 change @PANEL_WIDTH in SidePane.less and regenerate the stylesheet.
 
 * Blackberry and Chrome Mobile on Android have built-in left/right swipe gesture. On these platforms, swipe opening is not really usable.

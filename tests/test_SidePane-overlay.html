@@ -10,7 +10,7 @@
     <script src="//ajax.googleapis.com/ajax/libs/dojo/1.9.1/dojox/mobile/deviceTheme.js" data-dojo-config="mblThemeFiles: ['base', 'Button']"></script>
     <script src="//ajax.googleapis.com/ajax/libs/dojo/1.9.1/dojo/dojo.js" data-dojo-config="async: true, parseOnLoad: true, packages: [{
                         name: 'sidepane',
-                        location: 'http://dmandrioli.github.io/sidepane/'
+                        location: '/sidepane'
                     }]"></script>
 
     <script type="text/javascript">
@@ -41,7 +41,7 @@
     </div>
 
 </div>
-<div style="width:30%;" data-dojo-type="sidepane/SidePane" data-dojo-props="mode:'overlay', position:'start'" data-dojo-id="leftPane">
+<div data-dojo-type="sidepane/SidePane" data-dojo-props="mode:'overlay', position:'start'" data-dojo-id="leftPane">
     <div data-dojo-type="dojox/mobile/ScrollableView" style="height:100%">
         <ul data-dojo-type="dojox/mobile/EdgeToEdgeList" style="height:100%;">
             <li data-dojo-type="dojox/mobile/ListItem">A</li>
@@ -73,7 +73,7 @@
         </ul>
     </div>
 </div>
-<div style="width:40%;" data-dojo-type="sidepane/SidePane" data-dojo-props="mode:'overlay', position:'end'" data-dojo-id="rightPane">
+<div data-dojo-type="sidepane/SidePane" data-dojo-props="mode:'overlay', position:'end'" data-dojo-id="rightPane">
     <div data-dojo-type="dojox/mobile/ScrollableView" style="height:100%">
         <ul data-dojo-type="dojox/mobile/EdgeToEdgeList" style="height:100%;">
             <li data-dojo-type="dojox/mobile/ListItem">A</li>

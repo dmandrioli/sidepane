@@ -121,15 +121,14 @@ define([
         },
 
         _openImpl: function(){
+
             this._visible = true;
             this._changeClass(this.domNode, "VisiblePane", "HiddenPane");
             this._changeClass(this.domNode, "mblSidePaneVisiblePane", "mblSidePaneHiddenPane");
-            if(this.mode == "overlay"){
-                this.domNode.style[this.position=="start" ? "left" : "right"] = 0;
-            }else if(this.mode == "push" || this.mode == "reveal"){
+            if(this.mode == "push" || this.mode == "reveal"){
                 var nextElement = this._findPushedElement(this.domNode);
                 if(nextElement){
-                    var addedClass = "mblSidePane" + this._capitalize(this.position) + "PushHiddenWrapper";
+                    var addedClass = "mblSidePane" + this._capitalize(this.position) + "PushHiddenPage";
                     this._changeClass(nextElement, addedClass, addedClass.replace("Hidden", "Visible"));
                 }
             }
@@ -141,12 +140,10 @@ define([
             this._removeClass(win.doc.body, "noSelect");
             this._changeClass(this.domNode, "HiddenPane", "VisiblePane");
             this._changeClass(this.domNode, "mblSidePaneHiddenPane", "mblSidePaneVisiblePane");
-            if(this.mode == "overlay"){
-                this.domNode.style[this.position=="start" ? "left" : "right"] = "-100%";
-            }else if(this.mode == "push" || this.mode == "reveal"){
+            if(this.mode == "push" || this.mode == "reveal"){
                 var nextElement = this._findPushedElement(this.domNode);
                 if(nextElement){
-                    var removedClass = "mblSidePane" + this._capitalize(this.position) + "PushHiddenWrapper";
+                    var removedClass = "mblSidePane" + this._capitalize(this.position) + "PushHiddenPage";
                     this._changeClass(nextElement, removedClass.replace("Hidden", "Visible"), removedClass);
                 }
             }

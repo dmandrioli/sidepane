@@ -1,30 +1,13 @@
 .mblSidePane {
-  width: 15em;
+  width: 17em;
   height: 100%;
   top: 0;
   box-sizing: border-box;
   position: fixed;
-  -webkit-transform: translate3d(0, 0, 0);
-}
-.animateTransform {
   -moz-transition: -moz-transform 0.4s ease-in-out;
   -webkit-transition: -webkit-transform 0.4s ease-in-out;
   -ms-transition: -mstransform 0.4s ease-in-out;
   transition: transform 0.4s ease-in-out;
-}
-.mblSidePaneStart {
-  -moz-transition: left 0.4s ease-in-out;
-  -webkit-transition: left 0.4s ease-in-out;
-  -ms-transition: left 0.4s ease-in-out;
-  transition: left 0.4s ease-in-out;
-  border-right: solid black 1px;
-}
-.mblSidePaneEnd {
-  -moz-transition: right 0.4s ease-in-out;
-  -webkit-transition: right 0.4s ease-in-out;
-  -ms-transition: right 0.4s ease-in-out;
-  transition: right 0.4s ease-in-out;
-  border-left: solid black 1px;
 }
 .noSelect {
   -webkit-touch-callout: none;
@@ -34,16 +17,47 @@
   -ms-user-select: none;
   user-select: none;
 }
-.mblSidePaneStartPushHiddenPane {
-  -webkit-transform: translate3d(-15em, 0px, 0px);
-  transform: translate3d(-15em, 0px, 0px);
+.mblSidePaneStart {
+  left: 0;
+  border-right: solid black 1px;
+}
+.mblSidePaneEnd {
+  right: 0;
+  border-left: solid black 1px;
+}
+.mblSidePaneStartPushHiddenPane,
+.mblSidePaneStartOverlayHiddenPane {
+  -webkit-transform: translate3d(-17em, 0px, 0px);
+  transform: translate3d(-17em, 0px, 0px);
+}
+.mblSidePaneStartPushVisiblePane,
+.mblSidePaneStartOverlayVisiblePane {
+  display: "";
+  -webkit-transform: translate3d(0px, 0px, 0px);
+  transform: translate3d(0px, 0px, 0px);
+}
+.mblSidePaneEndPushHiddenPane,
+.mblSidePaneEndOverlayHiddenPane {
+  right: 0;
+  -webkit-transform: translate3d(17em, 0px, 0px);
+  transform: translate3d(17em, 0px, 0px);
+}
+.mblSidePaneEndPushVisiblePane,
+.mblSidePaneEndOverlayVisiblePane {
+  display: "";
+  right: 0;
+  -webkit-transform: translate3d(0px, 0px, 0px);
+  transform: translate3d(0px, 0px, 0px);
+}
+.mblSidePaneStartPushHiddenPage {
+  -webkit-transform: translate3d(17em, 0px, 0px);
+  transform: translate3d(17em, 0px, 0px);
   -moz-transition: -moz-transform 0.4s ease-in-out;
   -webkit-transition: -webkit-transform 0.4s ease-in-out;
   -ms-transition: -mstransform 0.4s ease-in-out;
   transition: transform 0.4s ease-in-out;
 }
-.mblSidePaneStartPushVisiblePane {
-  display: "";
+.mblSidePaneStartPushVisiblePage {
   -webkit-transform: translate3d(0px, 0px, 0px);
   transform: translate3d(0px, 0px, 0px);
   -moz-transition: -moz-transform 0.4s ease-in-out;
@@ -51,50 +65,15 @@
   -ms-transition: -mstransform 0.4s ease-in-out;
   transition: transform 0.4s ease-in-out;
 }
-.mblSidePaneStartPushHiddenWrapper {
-  -webkit-transform: translate3d(15em, 0px, 0px);
-  transform: translate3d(15em, 0px, 0px);
+.mblSidePaneEndPushHiddenPage {
+  -webkit-transform: translate3d(-17em, 0px, 0px);
+  transform: translate3d(-17em, 0px, 0px);
   -moz-transition: -moz-transform 0.4s ease-in-out;
   -webkit-transition: -webkit-transform 0.4s ease-in-out;
   -ms-transition: -mstransform 0.4s ease-in-out;
   transition: transform 0.4s ease-in-out;
 }
-.mblSidePaneStartPushVisibleWrapper {
-  -webkit-transform: translate3d(0px, 0px, 0px);
-  transform: translate3d(px, 0px, 0px);
-  -moz-transition: -moz-transform 0.4s ease-in-out;
-  -webkit-transition: -webkit-transform 0.4s ease-in-out;
-  -ms-transition: -mstransform 0.4s ease-in-out;
-  transition: transform 0.4s ease-in-out;
-}
-.mblSidePaneEndPushHiddenPane {
-  right: 0;
-  -webkit-transform: translate3d(15em, 0px, 0px);
-  transform: translate3d(15em, 0px, 0px);
-  -moz-transition: -moz-transform 0.4s ease-in-out;
-  -webkit-transition: -webkit-transform 0.4s ease-in-out;
-  -ms-transition: -mstransform 0.4s ease-in-out;
-  transition: transform 0.4s ease-in-out;
-}
-.mblSidePaneEndPushVisiblePane {
-  display: "";
-  right: 0;
-  -webkit-transform: translate3d(0px, 0px, 0px);
-  transform: translate3d(0px, 0px, 0px);
-  -moz-transition: -moz-transform 0.4s ease-in-out;
-  -webkit-transition: -webkit-transform 0.4s ease-in-out;
-  -ms-transition: -mstransform 0.4s ease-in-out;
-  transition: transform 0.4s ease-in-out;
-}
-.mblSidePaneEndPushHiddenWrapper {
-  -webkit-transform: translate3d(-15em, 0px, 0px);
-  transform: translate3d(-15em, 0px, 0px);
-  -moz-transition: -moz-transform 0.4s ease-in-out;
-  -webkit-transition: -webkit-transform 0.4s ease-in-out;
-  -ms-transition: -mstransform 0.4s ease-in-out;
-  transition: transform 0.4s ease-in-out;
-}
-.mblSidePaneEndPushVisibleWrapper {
+.mblSidePaneEndPushVisiblePage {
   -webkit-transform: translate3d(0px, 0px, 0px);
   transform: translate3d(0px, 0px, 0px);
   -moz-transition: -moz-transform 0.4s ease-in-out;

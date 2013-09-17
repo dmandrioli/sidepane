@@ -1,8 +1,18 @@
-
-@PANEL_WIDTH: 15em; // Change this value to modify the width of the pane
+@PANEL_WIDTH: 17em; // Change this value to modify the width of the pane
 @ANIMATION_DURATION: 0.4s;
 @ANIMATION_STYLE:  ease-in-out;
 
+.animateTransform(){
+  -moz-transition: -moz-transform @ANIMATION_DURATION @ANIMATION_STYLE;
+  -webkit-transition: -webkit-transform @ANIMATION_DURATION @ANIMATION_STYLE;
+  -ms-transition: -mstransform @ANIMATION_DURATION @ANIMATION_STYLE;
+  transition: transform @ANIMATION_DURATION @ANIMATION_STYLE;
+}
+
+.translate(@val){
+  -webkit-transform: translate3d(@val, 0px, 0px);
+  transform: translate3d(@val, 0px, 0px);
+}
 
 .mblSidePane{
   width: @PANEL_WIDTH;
@@ -10,32 +20,7 @@
   top: 0;
   box-sizing: border-box;
   position: fixed;
-  -webkit-transform: translate3d(0, 0, 0);
-}
-
-.animateTransform{
-  -moz-transition: -moz-transform @ANIMATION_DURATION @ANIMATION_STYLE;
-  -webkit-transition: -webkit-transform @ANIMATION_DURATION @ANIMATION_STYLE;
-  -ms-transition: -mstransform @ANIMATION_DURATION @ANIMATION_STYLE;
-  transition: transform @ANIMATION_DURATION @ANIMATION_STYLE;
-}
-
-.animate(@param){
-  -moz-transition: @param @ANIMATION_DURATION @ANIMATION_STYLE;
-  -webkit-transition: @param @ANIMATION_DURATION @ANIMATION_STYLE;
-  -ms-transition: @param @ANIMATION_DURATION @ANIMATION_STYLE;
-  transition: @param @ANIMATION_DURATION @ANIMATION_STYLE;
-
-}
-
-.mblSidePaneStart{
-  .animate(left);
-  border-right: solid black 1px;
-}
-
-.mblSidePaneEnd{
-  .animate(right);
-  border-left: solid black 1px;
+  .animateTransform()
 }
 
 .noSelect{
@@ -46,57 +31,57 @@
   -ms-user-select: none;
   user-select: none;
 }
-// PUSH & START
-.mblSidePaneStartPushHiddenPane{
 
-  -webkit-transform: translate3d(-@PANEL_WIDTH, 0px, 0px);
-  transform: translate3d(-@PANEL_WIDTH, 0px, 0px);
-  .animateTransform();
-}
-.mblSidePaneStartPushVisiblePane{
-  display: "";
-  -webkit-transform: translate3d(0px, 0px, 0px);
-  transform: translate3d(0px, 0px, 0px);
-  .animateTransform();
+.mblSidePaneStart{
+  left: 0;
+  border-right: solid black 1px;
 }
 
-.mblSidePaneStartPushHiddenWrapper{
-  -webkit-transform: translate3d(@PANEL_WIDTH, 0px, 0px);
-  transform: translate3d(@PANEL_WIDTH, 0px, 0px);
-  .animateTransform();
-}
-.mblSidePaneStartPushVisibleWrapper{
-  -webkit-transform: translate3d(0px, 0px, 0px);
-  transform: translate3d(px, 0px, 0px);
-  .animateTransform();
-}
-
-
-// PUSH & END
-.mblSidePaneEndPushHiddenPane{
-
+.mblSidePaneEnd{
   right: 0;
-  -webkit-transform: translate3d(@PANEL_WIDTH, 0px, 0px);
-  transform: translate3d(@PANEL_WIDTH, 0px, 0px);
-  .animateTransform();
+  border-left: solid black 1px;
 }
-.mblSidePaneEndPushVisiblePane{
+
+// PUSH/OVERLAY Start position
+.mblSidePaneStartPushHiddenPane, .mblSidePaneStartOverlayHiddenPane{
+  .translate(-@PANEL_WIDTH);
+}
+
+.mblSidePaneStartPushVisiblePane, .mblSidePaneStartOverlayVisiblePane{
+  display: "";
+  .translate(0px);
+}
+
+// PUSH/OVERLAY & End Position
+.mblSidePaneEndPushHiddenPane, .mblSidePaneEndOverlayHiddenPane{
+  right: 0;
+  .translate(@PANEL_WIDTH);
+}
+
+.mblSidePaneEndPushVisiblePane, .mblSidePaneEndOverlayVisiblePane{
   display: "";
   right: 0;
-  -webkit-transform: translate3d(0px, 0px, 0px);
-  transform: translate3d(0px, 0px, 0px);
-  .animateTransform();
+  .translate(0px);
 }
 
 // Used by REVEAL and PUSH
-.mblSidePaneEndPushHiddenWrapper{
-  -webkit-transform: translate3d(-@PANEL_WIDTH, 0px, 0px);
-  transform: translate3d(-@PANEL_WIDTH, 0px, 0px);
+
+.mblSidePaneStartPushHiddenPage{
+  .translate(@PANEL_WIDTH);
   .animateTransform();
 }
-.mblSidePaneEndPushVisibleWrapper{
-  -webkit-transform: translate3d(0px, 0px, 0px);
-  transform: translate3d(0px, 0px, 0px);
+
+.mblSidePaneStartPushVisiblePage{
+  .translate(0px);
+  .animateTransform();
+}
+
+.mblSidePaneEndPushHiddenPage{
+  .translate(-@PANEL_WIDTH);
+  .animateTransform();
+}
+.mblSidePaneEndPushVisiblePage{
+  .translate(0px);
   .animateTransform();
 }
 
