@@ -1,6 +1,3 @@
-WARNING
-THIS REPOSITORY IS OBSOLETE, PLEASE CHECK DELITEFUL PROJECT AT https://github.com/ibm-js/deliteful
-
 # Dojo Mobile SidePane
 
 Status: Experimental
